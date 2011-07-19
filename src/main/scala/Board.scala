@@ -1,9 +1,14 @@
 package com.tictactoe
 
-class Board {
+class Board(pOne:String, pTwo:String) {
     val InProgressStatus = "Game In Progress"
     val DrawStatus = "Draw"
     val EmptySquare = "-"
+    
+    def playerOne: String = pOne
+    def playerTwo: String = pTwo
+    
+    val currentPlayer = playerOne 
     
     private[this] var boardValues = new Array[String](9)
     for (i <- 0 to 8) { boardValues(i) = EmptySquare }
@@ -11,6 +16,12 @@ class Board {
     private[this] var boardStatus = InProgressStatus
     
     def status: String = boardStatus
+    
+    def opponentOf(symbol: String): String = {
+        if (symbol == playerOne) return playerTwo
+        return playerOne
+    }
+    
     
     def getSquareValue(square:Int) = { 
         boardValues(square)

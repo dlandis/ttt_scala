@@ -4,7 +4,7 @@ import com.tictactoe.Board
 
 class BoardSpec extends Spec {
 
-    def createBoard = new Board()
+    def createBoard = new Board("X", "O")
     
     def draw(board:Board) = {
         board.setSquareValue(0, "O")
@@ -83,9 +83,30 @@ class BoardSpec extends Spec {
             board.updateStatus()
             
             expect("Draw") { board.status }
-            
         } 
         
     }
     
+    describe("Players") {
+        it("requires players in constructor") {
+            var board = createBoard
+            
+            expect("X") { board.playerOne }
+            expect("O") { board.playerTwo }
+        }
+        
+        it("sets current player to player One on initialization") {
+            var board = createBoard
+            
+            expect("X") { board.currentPlayer }
+        }
+        
+        it("returns opponent of a player") {
+            var board = createBoard
+            
+            expect("O") { board.opponentOf("X") }
+            expect("X") { board.opponentOf("O") }
+        }
+        
+    }
 }

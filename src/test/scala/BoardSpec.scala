@@ -158,4 +158,17 @@ class BoardSpec extends Spec {
             expect("X wins!") { board.status }
         }
     }
+    
+    describe("duplicating") {
+        it("creates a copy of itself") {
+            var board = createBoard
+            board.makeMove(1, "X")
+
+            var duplicatedBoard = board.dup
+            
+            expect("X") { duplicatedBoard.playerOne }
+            expect("O") { duplicatedBoard.playerTwo }
+            expect("X") { duplicatedBoard.getSquareValue(1) }
+        }
+    }
 }

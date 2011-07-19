@@ -17,6 +17,16 @@ class Board(pOne:String, pTwo:String) {
     
     def status: String = boardStatus
     
+    
+    def dup: Board = {
+        var duplicatedBoard = new Board(this.playerOne, this.playerTwo)
+        for (i <- 0 to 8) {
+            duplicatedBoard.makeMove(i, this.getSquareValue(i))
+        }
+        
+        duplicatedBoard
+    }
+    
     def opponentOf(symbol: String): String = {
         if (symbol == playerOne) return playerTwo
         return playerOne
@@ -25,7 +35,7 @@ class Board(pOne:String, pTwo:String) {
     
     def getSquareValue(square:Int) = { 
         boardValues(square)
-        }
+    }
     
     def setSquareValue(square:Int, symbol:String) = {
         boardValues(square) = symbol
@@ -96,4 +106,6 @@ class Board(pOne:String, pTwo:String) {
     def threeInARow(symbol:String, combo:Tuple3[Int, Int, Int]) = {
         (boardValues(combo._1) == symbol && boardValues(combo._2) == symbol && boardValues(combo._3) == symbol)
     }
+    
+    
 }

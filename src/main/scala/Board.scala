@@ -28,7 +28,6 @@ class Board {
             }
         }
         (moves == 9)
-        
     }
     
     def updateStatus() = {
@@ -49,28 +48,28 @@ class Board {
     
     def rowsVictory(symbol:String) = {
         (
-            threeInARow(symbol, 0, 1, 2) || 
-            threeInARow(symbol, 3, 4, 5) || 
-            threeInARow(symbol, 6, 7, 8)
+            threeInARow(symbol, (0, 1, 2) ) || 
+            threeInARow(symbol, (3, 4, 5) ) || 
+            threeInARow(symbol, (6, 7, 8) )
         )
     }
     
     def columnsVictory(symbol:String) = {
         (
-            threeInARow(symbol, 0, 3, 6) || 
-            threeInARow(symbol, 1, 4, 7) || 
-            threeInARow(symbol, 2, 5, 8)
+            threeInARow(symbol, (0, 3, 6) ) || 
+            threeInARow(symbol, (1, 4, 7) ) || 
+            threeInARow(symbol, (2, 5, 8) )
         )
     }
     
     def diagonalsVictory(symbol:String) = {
         (
-            threeInARow(symbol, 0, 4, 8) || 
-            threeInARow(symbol, 2, 4, 6)
+            threeInARow(symbol, (0, 4, 8) ) || 
+            threeInARow(symbol, (2, 4, 6) )
         )
     }
     
-    def threeInARow(symbol:String, first:Int, second:Int, third:Int) = {
-        (boardValues(first) == symbol  && boardValues(second) == symbol && boardValues(third) == symbol)
+    def threeInARow(symbol:String, combo:Tuple3[Int, Int, Int]) = {
+        (boardValues(combo._1) == symbol && boardValues(combo._2) == symbol && boardValues(combo._3) == symbol)
     }
 }

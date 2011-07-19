@@ -95,8 +95,6 @@ class AlphaBetaSpec extends Spec {
         }
     }
     
-    
-    
     describe("scoring moves") {
         it("scores draws as 0") {
             var (alphaBeta, board) = createFixtures

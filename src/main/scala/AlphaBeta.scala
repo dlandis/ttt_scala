@@ -1,5 +1,7 @@
 package com.tictactoe
 
+import scala.util.control.Breaks._
+
 class AlphaBeta(playerSymbol: String) {
     
     private[this] val player = playerSymbol
@@ -26,7 +28,7 @@ class AlphaBeta(playerSymbol: String) {
         for (square <- 0 to 8) {
             if (potential.isSquareUnoccupied(square)) {
                 potential.makeMove(square, player)
-                moveScores(square) = alphabeta(potential, opponent, 0)
+                moveScores(square) = alphabeta(potential, opponent, -100, 100, 0)
                 potential.undoMove(square)
             }
         }
@@ -49,7 +51,7 @@ class AlphaBeta(playerSymbol: String) {
         bestMove
     }
     
-    def alphabeta(board: Board, currentPlayer: String, depth: Int): Int = {
+    def alphabeta(board: Board, currentPlayer: String, a:Int, b:Int, depth: Int): Int = {
         if ( board.isGameOver ) {
             return heuristicValueOfLastMove(board, depth)
         }
@@ -57,18 +59,31 @@ class AlphaBeta(playerSymbol: String) {
         var potential = board.dup
         val opponent = potential.opponentOf(currentPlayer)
         var bestScore = startingBestScore(currentPlayer)
+        var alpha = a
+        var beta = b
         
-        for (square <- 0 to 8) {
-            if ( potential.isSquareUnoccupied(square) ) {
-                potential.makeMove(square, currentPlayer)
-                var newScore = alphabeta(potential, opponent, depth + 1)
-                if ( isBetterMove(currentPlayer, newScore, bestScore)) {
-                    bestScore = newScore
+        breakable {
+            for (square <- 0 to 8) {
+                if ( potential.isSquareUnoccupied(square) ) {
+                    potential.makeMove(square, currentPlayer)
+                    var newScore = alphabeta(potential, opponent, alpha, beta, depth + 1)
+                    if ( isBetterMove(currentPlayer, newScore, bestScore)) {
+                        bestScore = newScore
+                    }
+                potential.undoMove(square)
+                
+                if (currentPlayer == player) {
+                    alpha = bestScore
                 }
-            potential.undoMove(square)
+                else {
+                    beta = bestScore
+                }
+
+                if ( beta <= alpha ) { break }
+                }
             }
-        }
         
+        }
         return bestScore
     }
     

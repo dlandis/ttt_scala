@@ -29,28 +29,73 @@ class AlphaBetaSpec extends Spec {
         board.makeMove(2, symbol)
     }
     
-    describe("blocks winning moves") {
+    describe("get moves") {
         
-        it("blocks upper right win") {
+        it("take top left corner if board is blank") {
             var (alphaBeta, board) = createFixtures
             
-            board.makeMove(0, Opponent)
-            board.makeMove(4, AlphaBetaPlayer)
-            board.makeMove(1, Opponent)
-            
-            expect(2) { alphaBeta.getMove(board) }
+            expect(0) { alphaBeta.getMove(board) }
         }
         
-        it("blocks bottom left win") (pending) // {
-        //             var (alphaBeta, board) = createFixtures
-        //             
-        //             board.makeMove(0, Opponent)
-        //             board.makeMove(4, AlphaBetaPlayer)
-        //             board.makeMove(3, Opponent)
-        //             
-        //             expect(6) { alphaBeta.getMove(board) }
-        //         }
+        describe("block winning moves") {
+            it("blocks upper right win") {
+                var (alphaBeta, board) = createFixtures
+            
+                board.makeMove(0, Opponent)
+                board.makeMove(4, AlphaBetaPlayer)
+                board.makeMove(1, Opponent)
+            
+                expect(2) { alphaBeta.getMove(board) }
+            }
+        
+            it("blocks bottom left win")  {
+                var (alphaBeta, board) = createFixtures
+            
+                board.makeMove(0, Opponent)
+                board.makeMove(4, AlphaBetaPlayer)
+                board.makeMove(3, Opponent)
+            
+                expect(6) { alphaBeta.getMove(board) }
+            }
+        
+            it("blocks middle if corner taken") {
+                var (alphaBeta, board) = createFixtures
+            
+                board.makeMove(0, "X")
+            
+                expect(4) { alphaBeta.getMove(board) }
+            }
+        }
+        
+        describe("winning moves") {
+            
+            it("takes bottom left to win") {
+                var (alphaBeta, board) = createFixtures
+                
+                board.makeMove(0, "X")
+                board.makeMove(4, "O")
+                board.makeMove(1, "X")
+                board.makeMove(2, "O")
+                board.makeMove(8, "X")
+                board.makeMove(6, "X")
+            }
+            
+            it("ignores opportunity to fork at 2 and takes bottom left to win") {
+                var (alphaBeta, board) = createFixtures
+                
+                board.makeMove(0, "X")
+                board.makeMove(4, "O")
+                board.makeMove(8, "X")
+                board.makeMove(2, "O")
+                board.makeMove(5, "X")
+                
+                expect(6) { alphaBeta.getMove(board) }
+            }
+            
+        }
     }
+    
+    
     
     describe("scoring moves") {
         it("scores draws as 0") {

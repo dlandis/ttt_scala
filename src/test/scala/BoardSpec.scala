@@ -37,6 +37,11 @@ class BoardSpec extends Spec {
             expect("X") { board.getSquareValue(0)}
         }
         
+        it("returns true if square unoccupied") {
+            var board = createBoard
+            
+            expect(true) { board.isSquareUnoccupied(0)}    
+        }
         it("returns true if all squares occupied") {
             var board = createBoard
             
@@ -114,7 +119,7 @@ class BoardSpec extends Spec {
             
             draw(board)
             
-            expect(true) { board.gameOver }
+            expect(true) { board.isGameOver }
         }
     }
     
@@ -156,6 +161,24 @@ class BoardSpec extends Spec {
             for (square <- 0 to 2) { board.makeMove(square, "X") }
             
             expect("X wins!") { board.status }
+        }
+        
+        it("undoes a move") {
+            var board = createBoard
+            board.makeMove(1, "X")
+            
+            board.undoMove(1)
+            
+            expect(true) { board.isSquareUnoccupied(1) }
+        }
+        
+        it("undoing move sets game status to in progress") {
+            var board = createBoard
+            setWinner(board, "X")
+            
+            board.undoMove(0)
+            
+            expect(false) { board.isGameOver }
         }
     }
     

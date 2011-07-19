@@ -44,16 +44,25 @@ class Board(pOne:String, pTwo:String) {
     def allSquaresOccupied = {
         var moves = 0
         for (i <- 0 to 8) {
-            if (boardValues(i) != "-") {
+            if (boardValues(i) != EmptySquare) {
                 moves += 1
             }
         }
         (moves == 9)
     }
     
-    def makeMove(square:Int, symbol:String) {
+    def isSquareUnoccupied(square:Int) = {
+        ( boardValues(square) == EmptySquare )
+    }
+    
+    def makeMove(square:Int, symbol:String) = {
         setSquareValue(square, symbol)
         updateStatus
+    }
+    
+    def undoMove(square:Int) = {
+        setSquareValue(square, EmptySquare)
+        boardStatus = InProgressStatus
     }
     
     def updateStatus = {
@@ -76,7 +85,7 @@ class Board(pOne:String, pTwo:String) {
         ( boardStatus == DrawStatus )
     }
     
-    def gameOver = {
+    def isGameOver = {
         ( boardStatus != InProgressStatus )
     }
     

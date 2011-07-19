@@ -7,21 +7,21 @@ class BoardSpec extends Spec {
     def createBoard = new Board("X", "O")
     
     def draw(board:Board) = {
-        board.setSquareValue(0, "O")
-        board.setSquareValue(1, "O")
-        board.setSquareValue(2, "X")
-        board.setSquareValue(3, "X")
-        board.setSquareValue(4, "X")
-        board.setSquareValue(5, "O")
-        board.setSquareValue(6, "O")
-        board.setSquareValue(7, "X")
-        board.setSquareValue(8, "X")
+        board.makeMove(0, "O")
+        board.makeMove(1, "O")
+        board.makeMove(2, "X")
+        board.makeMove(3, "X")
+        board.makeMove(4, "X")
+        board.makeMove(5, "O")
+        board.makeMove(6, "O")
+        board.makeMove(7, "X")
+        board.makeMove(8, "X")
     }
     
     def setWinner(board:Board, symbol:String) = {
-        board.setSquareValue(0, symbol)
-        board.setSquareValue(1, symbol)
-        board.setSquareValue(2, symbol)
+        board.makeMove(0, symbol)
+        board.makeMove(1, symbol)
+        board.makeMove(2, symbol)
     }
     
     describe("square values") {
@@ -50,6 +50,7 @@ class BoardSpec extends Spec {
             
             expect(false) { board.allSquaresOccupied }
         }
+        
     }
     
     describe("Status") {
@@ -62,7 +63,7 @@ class BoardSpec extends Spec {
             var board = createBoard
             setWinner(board, "X")
             
-            board.updateStatus()
+            board.updateStatus
             
             expect("X wins!") { board.status }
         }
@@ -71,7 +72,7 @@ class BoardSpec extends Spec {
             var board = createBoard
             setWinner(board, "O")
             
-            board.updateStatus()
+            board.updateStatus
             
             expect("O wins!") { board.status }
         }
@@ -80,11 +81,41 @@ class BoardSpec extends Spec {
             var board = createBoard
             draw(board)
             
-            board.updateStatus()
+            board.updateStatus
             
             expect("Draw") { board.status }
         } 
         
+        it("returns true if player is winner") {
+            var board = createBoard
+            setWinner(board, "O")
+            
+            expect(true) { board.isPlayerWinner("O") }
+        }
+        
+        it("returns false if player has not won the game") {
+            var board = createBoard
+            
+            expect(false) { board.isPlayerWinner("O") }
+            expect(false) { board.isPlayerWinner("X") }
+        }
+        
+        it("returns true if game at draw") {
+            var board = createBoard
+            
+            draw(board)
+            board.updateStatus
+            
+            expect(true) { board.isAtDraw }
+        }
+        
+        it("returns true if game over") {
+            var board = createBoard
+            
+            draw(board)
+            
+            expect(true) { board.gameOver }
+        }
     }
     
     describe("Players") {
@@ -108,5 +139,23 @@ class BoardSpec extends Spec {
             expect("X") { board.opponentOf("O") }
         }
         
+    }
+    
+    describe("Making Moves") {
+        it("updates a square") {
+            var board = createBoard
+            
+            board.makeMove(1, "X")
+            
+            expect("X") { board.getSquareValue(1) }
+        }
+        
+        it("calls updateStatus") {
+            var board = createBoard
+            
+            for (square <- 0 to 2) { board.makeMove(square, "X") }
+            
+            expect("X wins!") { board.status }
+        }
     }
 }

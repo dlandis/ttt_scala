@@ -41,11 +41,16 @@ class Board(pOne:String, pTwo:String) {
         (moves == 9)
     }
     
-    def updateStatus() = {
-        if ( isWinner("O") ) {
+    def makeMove(square:Int, symbol:String) {
+        setSquareValue(square, symbol)
+        updateStatus
+    }
+    
+    def updateStatus = {
+        if ( isPlayerWinner("O") ) {
             boardStatus = "O wins!"
         }
-        else if ( isWinner("X") ) {
+        else if ( isPlayerWinner("X") ) {
             boardStatus = "X wins!"
         }
         else if (allSquaresOccupied) {
@@ -53,8 +58,16 @@ class Board(pOne:String, pTwo:String) {
         }
     }
     
-    def isWinner(symbol:String) = {
+    def isPlayerWinner(symbol:String) = {
         ( rowsVictory(symbol) || columnsVictory(symbol) || diagonalsVictory(symbol) )
+    }
+    
+    def isAtDraw = {
+        ( boardStatus == DrawStatus )
+    }
+    
+    def gameOver = {
+        ( boardStatus != InProgressStatus )
     }
     
     def rowsVictory(symbol:String) = {

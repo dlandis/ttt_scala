@@ -1,49 +1,51 @@
 package com.tictactoe
 
 import scala.util.control.Breaks._
-import scala.collection.mutable.ArrayBuffer
-
 
 class AlphaBeta(playerSymbol: String) {
     
-    private[this] val player = playerSymbol
+    private[this] val maxPlayer = playerSymbol
     
     private[this] val MaxScore = 20
     private[this] val MinScore = -20
     private[this] val DrawScore = 0
     private[this] val InProgressScore = -1
+    private[this] val MaxStartValue = -100
+    private[this] val MinStartValue = 100
+    private[this] val DepthStartValue = 0 
     
-    private[this] var current = new Board("X", "O")
-    private[this] var moveScores: ArrayBuffer[Tuple2[Int, Int]] = new ArrayBuffer()
-    
+        
     def getMove(board: Board): Int = {
-        current = board
-        scoreMoves
-        moveWithHighestScore
+        val potential = board.dup
+        val moveScores = scoreMoves(potential)
+        return moveWithHighestScore( moveScores )
     }
     
-    def scoreMoves {
-        var potential = current.dup
-        val opponent = potential.opponentOf(player)
+    def scoreMoves(board: Board): IndexedSeq[Tuple2[Int, Int]] = {
+        val opponent = board.opponentOf(maxPlayer)
         
-        potential.unoccupiedSquares.foreach ( square => {
-            potential.makeMove(square, player)
-            moveScores += ( (square, alphabeta(potential, opponent, -100, 100, 0)) )
-            potential.undoMove(square)
+        board.unoccupiedSquares.map ( square => { 
+            ( square, scoreMove(square, board, opponent) )
         })
     }
     
-    def moveWithHighestScore = {
+    def scoreMove(square: Int, board: Board, opponent: String): Int = {
+        board.makeMove(square, maxPlayer)
+        val score = alphabeta(board, opponent, MaxStartValue, MinStartValue, DepthStartValue)
+        board.undoMove(square)
+        
+        score
+    }
+    
+    def moveWithHighestScore(moveScores: IndexedSeq[Tuple2[Int, Int]]) = {
         var bestScore = -100
         var bestMove = -1
         
         moveScores.foreach { 
             case (square, value) => {
-                if ( value != -1 ) {
-                    if ( value > bestScore) {
-                        bestScore = value
-                        bestMove = square
-                    }
+                if ( value > bestScore) {
+                    bestScore = value
+                    bestMove = square
                 }
             }
         }
@@ -55,24 +57,23 @@ class AlphaBeta(playerSymbol: String) {
         if ( board.isGameOver ) {
             return heuristicValueOfLastMove(board, depth)
         }
-        
-        var potential = board.dup
-        val opponent = potential.opponentOf(currentPlayer)
+
+        val opponent = board.opponentOf(currentPlayer)
         var bestScore = startingBestScore(currentPlayer)
         var alpha = a
         var beta = b
         
         breakable {
-            potential.unoccupiedSquares.foreach ( square => {
-                potential.makeMove(square, currentPlayer)
-                var newScore = alphabeta(potential, opponent, alpha, beta, depth + 1)
+            board.unoccupiedSquares.foreach ( square => {
+                board.makeMove(square, currentPlayer)
+                var newScore = alphabeta(board, opponent, alpha, beta, depth + 1)
+                board.undoMove(square)
+                
                 if ( isBetterMove(currentPlayer, newScore, bestScore)) {
                     bestScore = newScore
                 }
                 
-                potential.undoMove(square)
-                
-                if (currentPlayer == player) {
+                if (currentPlayer == maxPlayer) {
                     alpha = bestScore
                 }
                 else {
@@ -89,31 +90,31 @@ class AlphaBeta(playerSymbol: String) {
     def heuristicValueOfLastMove(board: Board, depth: Int): Int = {
         var score = InProgressScore
 
-        if ( board.isPlayerWinner(player) ) {
+        if ( board.isPlayerWinner(maxPlayer) ) {
             score = MaxScore - depth
         }
-        else if ( board.isPlayerWinner(board.opponentOf(player)) ) {
+        else if ( board.isPlayerWinner(board.opponentOf(maxPlayer)) ) {
             score = MinScore + depth
         }
         else if ( board.isAtDraw ) {
             score = DrawScore
         }
         
-        score
+        return score
     }
     
     def isBetterMove(currentPlayer:String, newScore:Int, bestScore:Int): Boolean = {
-        if (currentPlayer == player) {
+        if (currentPlayer == maxPlayer) {
             return ( newScore > bestScore )
         }
         return ( newScore < bestScore )
     }
     
     def startingBestScore(currentPlayer: String): Int = {
-        if (currentPlayer == player) {
-            return -100
+        if (currentPlayer == maxPlayer) {
+            return MaxStartValue
         }
-        return 100
+        return MinStartValue
     }
     
 }

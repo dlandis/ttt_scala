@@ -20,8 +20,8 @@ class BoardSpec extends Spec {
     
     def setWinner(board:Board, symbol:String) = {
         board.makeMove(0, symbol)
-        board.makeMove(1, symbol)
-        board.makeMove(2, symbol)
+        board.makeMove(4, symbol)
+        board.makeMove(8, symbol)
     }
     
     describe("square values") {

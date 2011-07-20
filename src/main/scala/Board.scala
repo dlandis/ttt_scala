@@ -17,58 +17,13 @@ class Board(pOne:String, pTwo:String) {
     
     def status: String = boardStatus
     
-    
-    def dup: Board = {
-        var duplicatedBoard = new Board(this.playerOne, this.playerTwo)
-        for (i <- 0 to 8) {
-            duplicatedBoard.makeMove(i, this.getSquareValue(i))
-        }
-        
-        duplicatedBoard
-    }
-    
-    def opponentOf(symbol: String): String = {
-        if (symbol == playerOne) return playerTwo
-        return playerOne
-    }
-    
-    
-    def getSquareValue(square:Int) = { 
-        boardValues(square)
-    }
-    
-    def setSquareValue(square:Int, symbol:String) = {
-        boardValues(square) = symbol
-    }
-    
-    def allSquaresOccupied = {
-        var moves = 0
-        for (i <- 0 to 8) {
-            if (boardValues(i) != EmptySquare) {
-                moves += 1
-            }
-        }
-        (moves == 9)
-    }
-    
-    def isSquareUnoccupied(square:Int) = {
-        ( boardValues(square) == EmptySquare )
-    }
-    
-    def unoccupiedSquares = {
-        for { square <- 0 to 8 
-                if isSquareUnoccupied(square)
-            } yield square
-    }
-    
     def makeMove(square:Int, symbol:String) = {
         setSquareValue(square, symbol)
         updateStatus
     }
     
-    def undoMove(square:Int) = {
-        setSquareValue(square, EmptySquare)
-        boardStatus = InProgressStatus
+    def setSquareValue(square:Int, symbol:String) = {
+        boardValues(square) = symbol
     }
     
     def updateStatus = {
@@ -83,16 +38,45 @@ class Board(pOne:String, pTwo:String) {
         }
     }
     
+    def undoMove(square:Int) = {
+        setSquareValue(square, EmptySquare)
+        boardStatus = InProgressStatus
+    }
+
+    def dup: Board = {
+        var duplicatedBoard = new Board(this.playerOne, this.playerTwo)
+        for (i <- 0 to 8) {
+            duplicatedBoard.makeMove(i, this.getSquareValue(i))
+        }
+        
+        duplicatedBoard
+    }
+    
+    def opponentOf(symbol: String): String = {
+        if (symbol == playerOne) return playerTwo
+        return playerOne
+    }
+    
+    def allSquaresOccupied = {
+        boardValues.count( _ != EmptySquare ) == 9
+    }
+    
+    def isSquareUnoccupied(square:Int) = {
+        boardValues(square) == EmptySquare
+    }
+    
+    def unoccupiedSquares = {
+        for { square <- 0 to 8 
+            if isSquareUnoccupied(square)
+        } yield square
+    }
+    
+    def getSquareValue(square:Int) = { 
+        boardValues(square)
+    }
+
     def isPlayerWinner(symbol:String) = {
-        ( rowsVictory(symbol) || columnsVictory(symbol) || diagonalsVictory(symbol) )
-    }
-    
-    def isAtDraw = {
-        ( boardStatus == DrawStatus )
-    }
-    
-    def isGameOver = {
-        ( boardStatus != InProgressStatus )
+        rowsVictory(symbol) || columnsVictory(symbol) || diagonalsVictory(symbol)
     }
     
     def rowsVictory(symbol:String) = {
@@ -121,6 +105,16 @@ class Board(pOne:String, pTwo:String) {
     def threeInARow(symbol:String, combo:Tuple3[Int, Int, Int]) = {
         (boardValues(combo._1) == symbol && boardValues(combo._2) == symbol && boardValues(combo._3) == symbol)
     }
+    
+    def isAtDraw = {
+        boardStatus == DrawStatus
+    }
+    
+    def isGameOver = {
+        boardStatus != InProgressStatus
+    }
+    
+
     
     
 }

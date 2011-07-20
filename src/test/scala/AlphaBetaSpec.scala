@@ -1,4 +1,5 @@
 import org.scalatest.Spec
+import java.lang.System
 
 import com.tictactoe.Board
 import com.tictactoe.AlphaBeta
@@ -29,12 +30,23 @@ class AlphaBetaSpec extends Spec {
         board.makeMove(2, symbol)
     }
     
+    // describe("benchmark") {
+    //     it("finds the first move on empty board in < 250 ms") {
+    //         val startTime = System.currentTimeMillis()
+    //         val endTime = System.currentTimeMillis()
+    //         val benchmark = endTime - startTime
+    //         
+    //         expect(true) { benchmark < 250 }
+    //     }
+    // }
+    
     describe("get moves") {
         
         it("take top left corner if board is blank") {
             var (alphaBeta, board) = createFixtures
-            
+
             expect(0) { alphaBeta.getMove(board) }
+
         }
         
         describe("block winning moves") {

@@ -56,6 +56,15 @@ class BoardSpec extends Spec {
             expect(false) { board.allSquaresOccupied }
         }
         
+        it("gives a sequence of unoccupied squares") {
+            var board = createBoard
+            board.unoccupiedSquares.foreach (
+                square => {
+                    expect(true) { board.isSquareUnoccupied(square) }
+                }
+            )
+        }
+        
     }
     
     describe("Status") {

@@ -6,7 +6,7 @@ import com.tictactoe.AlphaBeta
 class AlphaBetaSpec extends Spec {
     val AlphaBetaPlayer = "O"
     val Opponent = "X"
-    def createFixtures() = (
+    def createFixtures = (
                             new AlphaBeta(AlphaBetaPlayer), 
                             new Board(Opponent, AlphaBetaPlayer)
                            )

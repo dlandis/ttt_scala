@@ -1,6 +1,8 @@
 package com.tictactoe
 
 import scala.util.control.Breaks._
+import scala.collection.mutable.ArrayBuffer
+
 
 class AlphaBeta(playerSymbol: String) {
     
@@ -12,7 +14,7 @@ class AlphaBeta(playerSymbol: String) {
     private[this] val InProgressScore = -1
     
     private[this] var current = new Board("X", "O")
-    private[this] var moveScores = new Array[Int](9)
+    private[this] var moveScores: ArrayBuffer[Tuple2[Int, Int]] = new ArrayBuffer()
     
     def getMove(board: Board): Int = {
         current = board
@@ -23,27 +25,25 @@ class AlphaBeta(playerSymbol: String) {
     def scoreMoves {
         var potential = current.dup
         val opponent = potential.opponentOf(player)
-        for (i <- 0 to 8) { moveScores(i) = InProgressScore }
         
-        for (square <- 0 to 8) {
-            if (potential.isSquareUnoccupied(square)) {
-                potential.makeMove(square, player)
-                moveScores(square) = alphabeta(potential, opponent, -100, 100, 0)
-                potential.undoMove(square)
-            }
-        }
-        
+        potential.unoccupiedSquares.foreach ( square => {
+            potential.makeMove(square, player)
+            moveScores += ( (square, alphabeta(potential, opponent, -100, 100, 0)) )
+            potential.undoMove(square)
+        })
     }
     
-    def moveWithHighestScore: Int = {
+    def moveWithHighestScore = {
         var bestScore = -100
         var bestMove = -1
         
-        for (square <- 0 to 8) {
-            if ( moveScores(square) != -1 ) {
-                if ( moveScores(square) > bestScore) {
-                    bestScore = moveScores(square)
-                    bestMove = square
+        moveScores.foreach { 
+            case (square, value) => {
+                if ( value != -1 ) {
+                    if ( value > bestScore) {
+                        bestScore = value
+                        bestMove = square
+                    }
                 }
             }
         }
@@ -63,13 +63,13 @@ class AlphaBeta(playerSymbol: String) {
         var beta = b
         
         breakable {
-            for (square <- 0 to 8) {
-                if ( potential.isSquareUnoccupied(square) ) {
-                    potential.makeMove(square, currentPlayer)
-                    var newScore = alphabeta(potential, opponent, alpha, beta, depth + 1)
-                    if ( isBetterMove(currentPlayer, newScore, bestScore)) {
-                        bestScore = newScore
-                    }
+            potential.unoccupiedSquares.foreach ( square => {
+                potential.makeMove(square, currentPlayer)
+                var newScore = alphabeta(potential, opponent, alpha, beta, depth + 1)
+                if ( isBetterMove(currentPlayer, newScore, bestScore)) {
+                    bestScore = newScore
+                }
+                
                 potential.undoMove(square)
                 
                 if (currentPlayer == player) {
@@ -80,9 +80,8 @@ class AlphaBeta(playerSymbol: String) {
                 }
 
                 if ( beta <= alpha ) { break }
-                }
-            }
-        
+                
+            })
         }
         return bestScore
     }

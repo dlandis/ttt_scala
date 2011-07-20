@@ -55,6 +55,12 @@ class Board(pOne:String, pTwo:String) {
         ( boardValues(square) == EmptySquare )
     }
     
+    def unoccupiedSquares = {
+        for { square <- 0 to 8 
+                if isSquareUnoccupied(square)
+            } yield square
+    }
+    
     def makeMove(square:Int, symbol:String) = {
         setSquareValue(square, symbol)
         updateStatus

@@ -1,8 +1,12 @@
 package com.tictactoe
 
 class ConsoleUI(game: Game) {
+    val SquareSelectPrompt = "Please select a square (1-9) - "
+    
     var io = Console
     var in = io.in
+    
+    var squareParser: InputParser = new SquareParser(game)
 
     def displayMessage(string: String) {
         println(string)
@@ -33,6 +37,25 @@ class ConsoleUI(game: Game) {
     
     def gameOver {
         displayMessage(game.getStatus)
+    }
+    
+    def getMoveFromUser: String = {
+        return getValueFromUser(squareParser, SquareSelectPrompt)
+    }
+    
+    def getValueFromUser(parser: InputParser, message: String): String = {
+        val validInput = getValidInput(parser, message)
+        return parser.parsedInput(validInput)
+    }
+    
+    def getValidInput(parser: InputParser, message: String): String = {
+        var input = ""
+        do {
+            displayMessage(message)
+            input = getInput
+        } while (!parser.isValid(input))
+        
+        return input
     }
     
     def getInput: String = {

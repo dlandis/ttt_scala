@@ -7,6 +7,8 @@ import java.io.BufferedReader
 
 import com.tictactoe.ConsoleUI
 import com.tictactoe.Game
+import com.tictactoe.InputParser
+import com.tictactoe.SquareParser
 
 class ConsoleUISpec extends Spec with BeforeAndAfter {
     var mockOut = createMockOut
@@ -62,6 +64,47 @@ class ConsoleUISpec extends Spec with BeforeAndAfter {
             expect("foo") { ui.getInput }
         }
         
+        it("prompts user until valid input received") {
+            var mockParser = mock(classOf[InputParser])
+            ui.squareParser = mockParser
+            
+            when (mockParser.isValid(anyString()))
+                .thenReturn(false)
+                .thenReturn(false)
+                .thenReturn(true)    
+            when(mockIn.readLine).thenReturn("foo")
+                
+            expect("foo") { ui.getValidInput(mockParser, "enter foo") }  
+            
+            verify(mockOut, times(3)).println("enter foo")          
+            verify(mockParser, times(3)).isValid(anyString())
+        }
+        
+        it("gets value from user") {
+            var mockParser = mock(classOf[InputParser])
+            ui.squareParser = mockParser
+            
+            when (mockParser.isValid(anyString())).thenReturn(true)
+            when(mockIn.readLine).thenReturn("foo")
+            when(mockParser.parsedInput("foo")).thenReturn("foo")
+            
+            expect("foo") { ui.getValueFromUser(mockParser, "enter foo") } 
+            
+            verify(mockOut).println("enter foo")
+        }
+        
+        it("gets a move from user") {
+            var mockParser = mock(classOf[InputParser])
+            ui.squareParser = mockParser
+            
+            when (mockParser.isValid(anyString())).thenReturn(true)
+            when(mockIn.readLine).thenReturn("foo")
+            when(mockParser.parsedInput("foo")).thenReturn("foo")
+            
+            expect("foo") { ui.getMoveFromUser }  
+            
+            verify(mockOut).println(ui.SquareSelectPrompt)
+        }
     }
     
     

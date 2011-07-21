@@ -1,4 +1,5 @@
 import org.scalatest.Spec
+import org.scalatest.BeforeAndAfter
 import org.mockito.Mockito._
 import org.mockito.InOrder
 
@@ -7,32 +8,48 @@ import com.tictactoe.Board
 import com.tictactoe.AlphaBeta
 
 
-class GameSpec extends Spec {
+class GameSpec extends Spec with BeforeAndAfter {
+    
+    var game = createGame
+    var mockBoard = createMockBoard
+    var mockAI = createMockAlphaBeta
     
     def createGame = new Game()
     def createMocks = ( createMockBoard, createMockAlphaBeta )
     def createMockBoard = mock(classOf[Board])
     def createMockAlphaBeta = mock(classOf[AlphaBeta])
     
+    before {
+        game = createGame
+        mockBoard = createMockBoard
+        mockAI = createMockAlphaBeta
+        game.ai = mockAI
+        game.board = mockBoard
+    }
+    
     describe("current player") {
         it("current player starts as 'X'") {
-            var game = createGame
             expect("X") { game.getCurrentPlayer }
         }
         
         it("switches current player from X to O") {
-            var game = createGame
-            
             game.switchCurrentPlayer
             
             expect("O") { game.getCurrentPlayer }
         }
+        
+        it("switches current player when makemove is called") {
+            val mockBoard = createMockBoard
+            game.board = mockBoard
+            
+            game.makeMove(0)
+            
+            expect("O") { game.getCurrentPlayer }
+        }
     }
-    
 
     describe("interact with board") {
         it("sends a move to the board") {
-            var game = createGame
             val mockBoard = createMockBoard
             game.board = mockBoard
             
@@ -41,8 +58,8 @@ class GameSpec extends Spec {
             verify(mockBoard).makeMove(0, "X")
         }
         
+        
         it("determines if game is over") {
-            var game = createGame
             val mockBoard = createMockBoard
             game.board = mockBoard        
             
@@ -52,7 +69,6 @@ class GameSpec extends Spec {
         }
         
         it("gets square value") {
-            var game = createGame
             val mockBoard = createMockBoard
             game.board = mockBoard
             
@@ -62,7 +78,6 @@ class GameSpec extends Spec {
         }
         
         it("gets status") {
-            var game = createGame
             val mockBoard = createMockBoard
             game.board = mockBoard
             
@@ -71,45 +86,28 @@ class GameSpec extends Spec {
             verify(mockBoard).status
         }
     }
-    
+
     describe("interact with AI") {
         it("gets move from Alpha Beta") {
-            var game = createGame
-            val (mockBoard, mockAI) = createMocks
-            game.ai = mockAI
-            game.board = mockBoard
             when(mockAI.getMove(mockBoard)).thenReturn(0)
             
             expect(0) { game.getMoveFromAI }
             verify(mockAI).getMove(mockBoard)
         }
-    }
-    
-    describe("updating game") {
-        it("sends move from user to the board") {
-            var game = createGame
-            val (mockBoard, mockAI) = createMocks
-            game.ai = mockAI
-            game.board = mockBoard
-            
-            game.updateGameWithMove(0)
-            
-            verify(mockBoard).makeMove(0, "X")
-        } 
         
-        it("gets move from AI after move recorded") {
-            var game = createGame
-            val (mockBoard, mockAI) = createMocks
-            game.ai = mockAI
-            game.board = mockBoard
+        it("sends AI move to board") {
+            when(mockAI.getMove(mockBoard)).thenReturn(0)
+            
             val order: InOrder = inOrder(mockBoard, mockAI)
-            game.updateGameWithMove(0)
             
-            order.verify(mockBoard).makeMove(0, "X")
+            game.makeComputerMove
+            
+            expect(0) { game.getMoveFromAI }
+            expect("O") { game.getCurrentPlayer }
+    
             order.verify(mockAI).getMove(mockBoard)
+            order.verify(mockBoard).makeMove(0, "X")
         }
-        
-        it("switches players appropriately") (pending)
-        
-    }   
+    }
+
 }

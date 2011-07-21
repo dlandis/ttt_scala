@@ -1,12 +1,18 @@
 import org.scalatest.Spec
+import org.scalatest.BeforeAndAfter
+
 import java.lang.System
 
 import com.tictactoe.Board
 import com.tictactoe.AlphaBeta
 
-class AlphaBetaSpec extends Spec {
+class AlphaBetaSpec extends Spec with BeforeAndAfter {
     val AlphaBetaPlayer = "O"
     val Opponent = "X"
+    
+    var alphaBeta = new AlphaBeta(AlphaBetaPlayer)
+    var board = new Board(Opponent, AlphaBetaPlayer)
+    
     def createFixtures = (
                             new AlphaBeta(AlphaBetaPlayer), 
                             new Board(Opponent, AlphaBetaPlayer)
@@ -30,29 +36,33 @@ class AlphaBetaSpec extends Spec {
         board.makeMove(2, symbol)
     }
     
+    before {
+        alphaBeta = new AlphaBeta(AlphaBetaPlayer)
+        board = new Board(Opponent, AlphaBetaPlayer)
+    }
+    
     // describe("benchmark") {
-    //     it("finds the first move on empty board in < 250 ms") {
+    //     it("finds the first move on empty board in < 300 ms") {
+    //     
     //         val startTime = System.currentTimeMillis()
+    //         
+    //         expect(0) { alphaBeta.getMove(board) }
+    //         
     //         val endTime = System.currentTimeMillis()
     //         val benchmark = endTime - startTime
     //         
-    //         expect(true) { benchmark < 250 }
+    //         expect(true) { benchmark < 300 }
     //     }
     // }
     
     describe("get moves") {
         
         it("take top left corner if board is blank") {
-            var (alphaBeta, board) = createFixtures
-
             expect(0) { alphaBeta.getMove(board) }
-
         }
         
         describe("block winning moves") {
             it("blocks upper right win") {
-                var (alphaBeta, board) = createFixtures
-            
                 board.makeMove(0, Opponent)
                 board.makeMove(4, AlphaBetaPlayer)
                 board.makeMove(1, Opponent)
@@ -61,8 +71,6 @@ class AlphaBetaSpec extends Spec {
             }
         
             it("blocks bottom left win")  {
-                var (alphaBeta, board) = createFixtures
-            
                 board.makeMove(0, Opponent)
                 board.makeMove(4, AlphaBetaPlayer)
                 board.makeMove(3, Opponent)
@@ -71,8 +79,6 @@ class AlphaBetaSpec extends Spec {
             }
         
             it("blocks middle if corner taken") {
-                var (alphaBeta, board) = createFixtures
-            
                 board.makeMove(0, "X")
             
                 expect(4) { alphaBeta.getMove(board) }
@@ -82,8 +88,6 @@ class AlphaBetaSpec extends Spec {
         describe("winning moves") {
             
             it("takes bottom left to win") {
-                var (alphaBeta, board) = createFixtures
-                
                 board.makeMove(0, "X")
                 board.makeMove(4, "O")
                 board.makeMove(1, "X")
@@ -93,8 +97,6 @@ class AlphaBetaSpec extends Spec {
             }
             
             it("ignores opportunity to fork at 2 and takes bottom left to win") {
-                var (alphaBeta, board) = createFixtures
-                
                 board.makeMove(0, "X")
                 board.makeMove(4, "O")
                 board.makeMove(8, "X")
@@ -109,32 +111,24 @@ class AlphaBetaSpec extends Spec {
     
     describe("scoring moves") {
         it("scores draws as 0") {
-            var (alphaBeta, board) = createFixtures
-
             draw(board)
 
             expect(0) { alphaBeta.heuristicValueOfLastMove(board, 0) }
         }
         
         it("scores games in progress as -1") {
-            var (alphaBeta, board) = createFixtures
-            
             board.makeMove(0, "X")
             
             expect(-1) { alphaBeta.heuristicValueOfLastMove(board, 0) }
         }
         
         it("scores wins for alphaBeta player as 20 for depth of 0") {
-            var (alphaBeta, board) = createFixtures
-            
             win(AlphaBetaPlayer, board)
             
             expect(20) { alphaBeta.heuristicValueOfLastMove(board, 0) }
         }
         
         it("subtracts move depth from max score of 20 for alphabeta player") {
-            var (alphaBeta, board) = createFixtures
-            
             win(AlphaBetaPlayer, board)
             
             expect(19) { alphaBeta.heuristicValueOfLastMove(board, 1) }
@@ -142,16 +136,12 @@ class AlphaBetaSpec extends Spec {
         }
         
         it("scores wins for opponent as -20 for depth of 0") {
-            var (alphaBeta, board) = createFixtures
-            
             win(Opponent, board)
             
             expect(-20) { alphaBeta.heuristicValueOfLastMove(board, 0) }
         }
         
         it("subtracts move depth from max score of -20 for opponent") {
-            var (alphaBeta, board) = createFixtures
-            
             win(Opponent, board)
             
             expect(-19) { alphaBeta.heuristicValueOfLastMove(board, 1) }

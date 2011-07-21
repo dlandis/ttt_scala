@@ -22,7 +22,7 @@ class Board(pOne:String, pTwo:String) {
         updateStatus
     }
     
-    def setSquareValue(square:Int, symbol:String) = {
+    private def setSquareValue(square:Int, symbol:String) = {
         boardValues(square) = symbol
     }
     

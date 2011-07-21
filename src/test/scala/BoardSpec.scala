@@ -1,9 +1,11 @@
 import org.scalatest.Spec
+import org.scalatest.BeforeAndAfter
 
 import com.tictactoe.Board
 
-class BoardSpec extends Spec {
-
+class BoardSpec extends Spec with BeforeAndAfter {
+    
+    var board = createBoard
     def createBoard = new Board("X", "O")
     
     def draw(board:Board) = {
@@ -24,40 +26,35 @@ class BoardSpec extends Spec {
         board.makeMove(8, symbol)
     }
     
+    before {
+        board = createBoard
+    }
+    
     describe("square values") {
         it("gets an empty square") {
-            var board = createBoard
             expect("-") { board.getSquareValue(0)}
         }
         
-        it("sets a square") {
-            var board = createBoard
-            board.setSquareValue(0, "X")
+        it("gets an occupied square") {
+            board.makeMove(0, "X")
             
             expect("X") { board.getSquareValue(0)}
         }
         
-        it("returns true if square unoccupied") {
-            var board = createBoard
-            
+        it("returns true if square unoccupied") {        
             expect(true) { board.isSquareUnoccupied(0)}    
         }
-        it("returns true if all squares occupied") {
-            var board = createBoard
-            
+        it("returns true if all squares occupied") {        
             draw(board)
             
             expect(true) { board.allSquaresOccupied }
         }
         
-        it("returns false if not all squares occupied") {
-            var board = createBoard
-            
+        it("returns false if not all squares occupied") {        
             expect(false) { board.allSquaresOccupied }
         }
         
         it("gives a sequence of unoccupied squares") {
-            var board = createBoard
             board.unoccupiedSquares.foreach (
                 square => {
                     expect(true) { board.isSquareUnoccupied(square) }
@@ -69,12 +66,10 @@ class BoardSpec extends Spec {
     
     describe("Status") {
         it("has a default status of 'Game In Progress'") {
-            var board = createBoard
             expect("Game In Progress") { board.status }
         }
         
         it("X wins based on board values") {
-            var board = createBoard
             setWinner(board, "X")
             
             board.updateStatus
@@ -83,7 +78,6 @@ class BoardSpec extends Spec {
         }
         
         it("O wins based on board values") {
-            var board = createBoard
             setWinner(board, "O")
             
             board.updateStatus
@@ -92,7 +86,6 @@ class BoardSpec extends Spec {
         }
         
         it("finds draw if all squares are occupied with no winner") {
-            var board = createBoard
             draw(board)
             
             board.updateStatus
@@ -101,31 +94,24 @@ class BoardSpec extends Spec {
         } 
         
         it("returns true if player is winner") {
-            var board = createBoard
             setWinner(board, "O")
             
             expect(true) { board.isPlayerWinner("O") }
         }
         
-        it("returns false if player has not won the game") {
-            var board = createBoard
-            
+        it("returns false if player has not won the game") {            
             expect(false) { board.isPlayerWinner("O") }
             expect(false) { board.isPlayerWinner("X") }
         }
         
-        it("returns true if game at draw") {
-            var board = createBoard
-            
+        it("returns true if game at draw") {            
             draw(board)
             board.updateStatus
             
             expect(true) { board.isAtDraw }
         }
         
-        it("returns true if game over") {
-            var board = createBoard
-            
+        it("returns true if game over") {            
             draw(board)
             
             expect(true) { board.isGameOver }
@@ -133,22 +119,16 @@ class BoardSpec extends Spec {
     }
     
     describe("Players") {
-        it("requires players in constructor") {
-            var board = createBoard
-            
+        it("requires players in constructor") {            
             expect("X") { board.playerOne }
             expect("O") { board.playerTwo }
         }
         
-        it("sets current player to player One on initialization") {
-            var board = createBoard
-            
+        it("sets current player to player One on initialization") {            
             expect("X") { board.currentPlayer }
         }
         
-        it("returns opponent of a player") {
-            var board = createBoard
-            
+        it("returns opponent of a player") {            
             expect("O") { board.opponentOf("X") }
             expect("X") { board.opponentOf("O") }
         }
@@ -156,24 +136,19 @@ class BoardSpec extends Spec {
     }
     
     describe("Making Moves") {
-        it("updates a square") {
-            var board = createBoard
-            
+        it("updates a square") {            
             board.makeMove(1, "X")
             
             expect("X") { board.getSquareValue(1) }
         }
         
-        it("calls updateStatus") {
-            var board = createBoard
-            
+        it("calls updateStatus") {            
             for (square <- 0 to 2) { board.makeMove(square, "X") }
             
             expect("X wins!") { board.status }
         }
         
         it("undoes a move") {
-            var board = createBoard
             board.makeMove(1, "X")
             
             board.undoMove(1)
@@ -182,7 +157,6 @@ class BoardSpec extends Spec {
         }
         
         it("undoing move sets game status to in progress") {
-            var board = createBoard
             setWinner(board, "X")
             
             board.undoMove(0)
@@ -193,7 +167,6 @@ class BoardSpec extends Spec {
     
     describe("duplicating") {
         it("creates a copy of itself") {
-            var board = createBoard
             board.makeMove(1, "X")
 
             var duplicatedBoard = board.dup

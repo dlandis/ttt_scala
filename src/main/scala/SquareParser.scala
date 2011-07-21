@@ -1,9 +1,9 @@
 package com.tictactoe
 
 class SquareParser(game: Game) extends InputParser {
-    
-    def parsedInput(input: String): String = {
-        return (inputMinusOne(input)).toString
+    type ParsedValue = Int
+    def parsedInput(input: String): Int = {
+        return inputMinusOne(input)
     }
     
     def isValid(input: String): Boolean = {

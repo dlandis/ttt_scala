@@ -7,7 +7,7 @@ import com.tictactoe.ConsoleUI
 import com.tictactoe.Game
 import com.tictactoe.SquareParser
 
-class ParsersSpec extends Spec with BeforeAndAfter {
+class SquareParserSpec extends Spec with BeforeAndAfter {
    
     var mockGame = createMockGame
     var parser = new SquareParser(mockGame)
@@ -47,7 +47,7 @@ class ParsersSpec extends Spec with BeforeAndAfter {
     
     describe("parse input") {
         List("1", "2", "3", "4", "5", "6", "7", "8", "9").foreach ( input => {
-            val parsedInput = (input.toInt - 1).toString
+            val parsedInput = input.toInt - 1
             it("parses '" + input + "' to " + parsedInput) {
                 expect(parsedInput) { parser.parsedInput(input) }   
             }

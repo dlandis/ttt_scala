@@ -1,8 +1,8 @@
 package com.tictactoe
 
 abstract class InputParser {
-    
-    def parsedInput(input: String): String
+    type ParsedValue
+    def parsedInput(input: String): ParsedValue
     
     def isValid(input: String): Boolean
     

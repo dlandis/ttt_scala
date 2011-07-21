@@ -9,6 +9,7 @@ import com.tictactoe.ConsoleUI
 import com.tictactoe.Game
 import com.tictactoe.InputParser
 import com.tictactoe.SquareParser
+import com.tictactoe.PlayAgainParser
 
 class ConsoleUISpec extends Spec with BeforeAndAfter {
     var mockOut = createMockOut
@@ -65,7 +66,7 @@ class ConsoleUISpec extends Spec with BeforeAndAfter {
         }
         
         it("prompts user until valid input received") {
-            var mockParser = mock(classOf[InputParser])
+            var mockParser = mock(classOf[StringParser])
             ui.squareParser = mockParser
             
             when (mockParser.isValid(anyString()))
@@ -81,31 +82,53 @@ class ConsoleUISpec extends Spec with BeforeAndAfter {
         }
         
         it("gets value from user") {
-            var mockParser = mock(classOf[InputParser])
-            ui.squareParser = mockParser
+            var mockParser = mock(classOf[StringParser])
             
             when (mockParser.isValid(anyString())).thenReturn(true)
             when(mockIn.readLine).thenReturn("foo")
-            when(mockParser.parsedInput("foo")).thenReturn("foo")
+            when(mockParser.parsedInput("foo")).thenReturn("parsed foo")
             
-            expect("foo") { ui.getValueFromUser(mockParser, "enter foo") } 
+            expect("parsed foo") { ui.getValueFromUser(mockParser, "enter foo") } 
             
             verify(mockOut).println("enter foo")
         }
         
         it("gets a move from user") {
-            var mockParser = mock(classOf[InputParser])
+            var mockParser = mock(classOf[SquareParser])
             ui.squareParser = mockParser
+            
+            when (mockParser.isValid(anyString())).thenReturn(true)
+            when(mockIn.readLine).thenReturn("3")
+            when(mockParser.parsedInput("3")).thenReturn(2)
+            
+            expect(2) { ui.getMoveFromUser }  
+            
+            verify(mockOut).println(ui.SquareSelectPrompt)
+        }
+        
+        it("asks user to play again") {
+            var mockParser = mock(classOf[PlayAgainParser])
+            ui.playAgainParser = mockParser
             
             when (mockParser.isValid(anyString())).thenReturn(true)
             when(mockIn.readLine).thenReturn("foo")
             when(mockParser.parsedInput("foo")).thenReturn("foo")
             
-            expect("foo") { ui.getMoveFromUser }  
+            expect("foo") { ui.askUserToPlayAgain }  
             
-            verify(mockOut).println(ui.SquareSelectPrompt)
+            verify(mockOut).println(ui.PlayAgainPrompt)
         }
     }
     
-    
+    class StringParser extends InputParser {
+        type ParsedValue = String
+        def parsedInput(input: String): ParsedValue = {
+            return "foo"
+        }
+
+        def isValid(input: String): Boolean = {
+            return true
+        }
+    }
 }
+

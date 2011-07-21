@@ -2,7 +2,6 @@ package com.tictactoe
 
 class ConsoleUI(game: Game) {
     var io = Console
-    var out = io.out
     var in = io.in
 
     def displayMessage(string: String) {
@@ -33,18 +32,18 @@ class ConsoleUI(game: Game) {
     }
     
     def gameOver {
-        println(game.getStatus)
+        displayMessage(game.getStatus)
     }
     
     def getInput: String = {
         return readLine.trim
     }
     
-    def readLine: String = {
+    private def readLine: String = {
         return in.readLine
     }
     
-    def println(output:String ) {
+    private def println(output:String ) {
         io.out.println(output)
     }
 }

@@ -33,13 +33,18 @@ class Game {
         board.isGameOver
     }
     
-    def getSquareValue(square: Int) = {
-        board.getSquareValue(square)
+    def getSquareValue(square: Int): String = {
+        return board.getSquareValue(square)
+    }
+    
+    def isSquareUnoccupied(square: Int): Boolean = {
+        return board.isSquareUnoccupied(square)
     }
     
     def getStatus = {
         board.status
     }
+    
     
 
     

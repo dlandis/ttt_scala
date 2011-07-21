@@ -39,9 +39,6 @@ class GameSpec extends Spec with BeforeAndAfter {
         }
         
         it("switches current player when makemove is called") {
-            val mockBoard = createMockBoard
-            game.board = mockBoard
-            
             game.makeMove(0)
             
             expect("O") { game.getCurrentPlayer }
@@ -50,9 +47,6 @@ class GameSpec extends Spec with BeforeAndAfter {
 
     describe("interact with board") {
         it("sends a move to the board") {
-            val mockBoard = createMockBoard
-            game.board = mockBoard
-            
             game.makeMove(0)
             
             verify(mockBoard).makeMove(0, "X")
@@ -60,30 +54,33 @@ class GameSpec extends Spec with BeforeAndAfter {
         
         
         it("determines if game is over") {
-            val mockBoard = createMockBoard
-            game.board = mockBoard        
-            
             game.isGameOver
             
             verify(mockBoard).isGameOver
         }
         
         it("gets square value") {
-            val mockBoard = createMockBoard
-            game.board = mockBoard
-            
             game.getSquareValue(0)
             
             verify(mockBoard).getSquareValue(0)
         }
         
         it("gets status") {
-            val mockBoard = createMockBoard
-            game.board = mockBoard
-            
             game.getStatus
             
             verify(mockBoard).status
+        }
+        
+        it("finds a square is unoccupied") {
+            when(mockBoard.isSquareUnoccupied(0)).thenReturn(true)
+            
+            expect(true) { game.isSquareUnoccupied(0) }
+        }
+        
+        it("finds a square is occupied") {
+            when(mockBoard.isSquareUnoccupied(0)).thenReturn(false)
+            
+            expect(false) { game.isSquareUnoccupied(0) }
         }
     }
 

@@ -12,7 +12,7 @@ class ConsoleUI(game: Game) {
     
 
     def displayMessage(string: String) {
-        println(string)
+        printf(string)
     }
     
     def displayBoard {
@@ -32,9 +32,9 @@ class ConsoleUI(game: Game) {
     
     def printRow(first: Int, second: Int, third: Int) {
         println(
-            " " + game.getSquareValue(first) + 
-            " " + game.getSquareValue(second) + 
-            " " + game.getSquareValue(third) 
+            "  " + game.getSquareValue(first) + 
+            "  |  " + game.getSquareValue(second) + 
+            "  |  " + game.getSquareValue(third) 
         )
     }
     
@@ -42,15 +42,15 @@ class ConsoleUI(game: Game) {
         displayMessage(game.getStatus)
     }
     
-    def getMoveFromUser: InputParser#ParsedValue = {
+    def getMoveFromUser: String = {
         return getValueFromUser(squareParser, SquareSelectPrompt)
     }
     
-    def askUserToPlayAgain: InputParser#ParsedValue = {
+    def askUserToPlayAgain: String = {
         return getValueFromUser(playAgainParser, PlayAgainPrompt)
     }
     
-    def getValueFromUser(parser: InputParser, message: String): InputParser#ParsedValue = {
+    def getValueFromUser(parser: InputParser, message: String): String = {
         val validInput = getValidInput(parser, message)
         return parser.parsedInput(validInput)
     }
@@ -71,6 +71,10 @@ class ConsoleUI(game: Game) {
     
     private def readLine: String = {
         return in.readLine
+    }
+    
+    private def printf(output:String ) {
+        io.out.printf(output)
     }
     
     private def println(output:String ) {

@@ -39,7 +39,7 @@ class ConsoleUISpec extends Spec with BeforeAndAfter {
         it("displays a message") {
             ui.displayMessage("Welcome To Tic Tac Toe in Scala")
 
-            verify(mockOut).println("Welcome To Tic Tac Toe in Scala")
+            verify(mockOut).printf("Welcome To Tic Tac Toe in Scala")
         }
         
         it("displays square info from game") {
@@ -53,7 +53,7 @@ class ConsoleUISpec extends Spec with BeforeAndAfter {
             
             ui.gameOver
             
-            verify(mockOut).println("X wins!")
+            verify(mockOut).printf("X wins!")
         }
         
     }
@@ -77,7 +77,7 @@ class ConsoleUISpec extends Spec with BeforeAndAfter {
                 
             expect("foo") { ui.getValidInput(mockParser, "enter foo") }  
             
-            verify(mockOut, times(3)).println("enter foo")          
+            verify(mockOut, times(3)).printf("enter foo")          
             verify(mockParser, times(3)).isValid(anyString())
         }
         
@@ -90,7 +90,7 @@ class ConsoleUISpec extends Spec with BeforeAndAfter {
             
             expect("parsed foo") { ui.getValueFromUser(mockParser, "enter foo") } 
             
-            verify(mockOut).println("enter foo")
+            verify(mockOut).printf("enter foo")
         }
         
         it("gets a move from user") {
@@ -99,11 +99,11 @@ class ConsoleUISpec extends Spec with BeforeAndAfter {
             
             when (mockParser.isValid(anyString())).thenReturn(true)
             when(mockIn.readLine).thenReturn("3")
-            when(mockParser.parsedInput("3")).thenReturn(2)
+            when(mockParser.parsedInput("3")).thenReturn("2")
             
-            expect(2) { ui.getMoveFromUser }  
+            expect("2") { ui.getMoveFromUser }  
             
-            verify(mockOut).println(ui.SquareSelectPrompt)
+            verify(mockOut).printf(ui.SquareSelectPrompt)
         }
         
         it("asks user to play again") {
@@ -112,11 +112,11 @@ class ConsoleUISpec extends Spec with BeforeAndAfter {
             
             when (mockParser.isValid(anyString())).thenReturn(true)
             when(mockIn.readLine).thenReturn("foo")
-            when(mockParser.parsedInput("foo")).thenReturn(false)
+            when(mockParser.parsedInput("foo")).thenReturn("false")
             
-            expect(false) { ui.askUserToPlayAgain }  
+            expect("false") { ui.askUserToPlayAgain }  
             
-            verify(mockOut).println(ui.PlayAgainPrompt)
+            verify(mockOut).printf(ui.PlayAgainPrompt)
         }
     }
     

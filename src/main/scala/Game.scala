@@ -23,7 +23,12 @@ class Game {
         board.makeMove(square, currentPlayer)
         switchCurrentPlayer
     }
-
+    
+    def makeComputerMove {
+        val square = getMoveFromAI
+        makeMove(square)
+    }
+    
     def isGameOver = {
         board.isGameOver
     }
@@ -36,10 +41,7 @@ class Game {
         board.status
     }
     
-    def makeComputerMove {
-        val square = getMoveFromAI
-        makeMove(square)
-    }
+
     
     def getMoveFromAI: Int = {
         ai.getMove(board)

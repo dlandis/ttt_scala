@@ -43,16 +43,14 @@ class ConsoleUI(game: Game) {
     }
     
     def getMoveFromUser: InputParser#ParsedValue = {
-        val validInput = getValidInput(squareParser, SquareSelectPrompt)
-        val parsedInput = squareParser.parsedInput(validInput)
-        return parsedInput
+        return getValueFromUser(squareParser, SquareSelectPrompt)
     }
     
-    def askUserToPlayAgain: String = {
-        return getValueFromUser(playAgainParser, PlayAgainPrompt).toString
+    def askUserToPlayAgain: InputParser#ParsedValue = {
+        return getValueFromUser(playAgainParser, PlayAgainPrompt)
     }
     
-    def getValueFromUser(parser: InputParser, message: String): Any = {
+    def getValueFromUser(parser: InputParser, message: String): InputParser#ParsedValue = {
         val validInput = getValidInput(parser, message)
         return parser.parsedInput(validInput)
     }

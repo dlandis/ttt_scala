@@ -1,9 +1,9 @@
 package com.tictactoe
 
 class PlayAgainParser extends InputParser {
-    type ParsedValue = String
+    type ParsedValue = Boolean
     def parsedInput(input: String): ParsedValue = {
-        return "foo"
+        return input.matches("^[yY]")
     }
     
     def isValid(input: String): Boolean = {

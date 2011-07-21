@@ -112,9 +112,9 @@ class ConsoleUISpec extends Spec with BeforeAndAfter {
             
             when (mockParser.isValid(anyString())).thenReturn(true)
             when(mockIn.readLine).thenReturn("foo")
-            when(mockParser.parsedInput("foo")).thenReturn("foo")
+            when(mockParser.parsedInput("foo")).thenReturn(false)
             
-            expect("foo") { ui.askUserToPlayAgain }  
+            expect(false) { ui.askUserToPlayAgain }  
             
             verify(mockOut).println(ui.PlayAgainPrompt)
         }

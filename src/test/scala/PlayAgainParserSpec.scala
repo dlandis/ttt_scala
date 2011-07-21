@@ -21,6 +21,20 @@ class PlayAgainParserSpec extends Spec with BeforeAndAfter {
     }
     
     describe("parsing") {
-        it("parses anything beginning with 'y' to true") (pending)
+        List("yes", "YES", "Yeah", "Yno").foreach (
+            input => {
+                it(input + " parses to true") {
+                    expect(true) {parser.isValid(input) }
+                }
+            }
+        )
+
+        List("well maybe", "no", "fyes", "afsdf").foreach (
+            input => {
+                it(input + " parses to false") {
+                    expect(true) {parser.isValid(input) }
+                }
+            }
+        )
     }
 }

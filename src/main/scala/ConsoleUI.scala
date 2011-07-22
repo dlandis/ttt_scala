@@ -3,6 +3,7 @@ package com.tictactoe
 class ConsoleUI(game: Game) {
     val SquareSelectPrompt = "Please select a square (1-9) - "
     val PlayAgainPrompt = "Play again? (Y/N) - "
+    val ComputerMoveMessage = "Computer's turn..."
     
     var io = Console
     var in = io.in
@@ -11,7 +12,7 @@ class ConsoleUI(game: Game) {
     var playAgainParser: InputParser = new PlayAgainParser()
     
 
-    def displayMessage(string: String) {
+    def inputPrompt(string: String) {
         printf(string)
     }
     
@@ -39,7 +40,11 @@ class ConsoleUI(game: Game) {
     }
     
     def gameOver {
-        displayMessage(game.getStatus)
+        println(game.getStatus)
+    }
+    
+    def computerIsMakingMove {
+        println(ComputerMoveMessage)
     }
     
     def getMoveFromUser: String = {
@@ -58,7 +63,7 @@ class ConsoleUI(game: Game) {
     def getValidInput(parser: InputParser, message: String): String = {
         var input = ""
         do {
-            displayMessage(message)
+            inputPrompt(message)
             input = getInput
         } while (!parser.isValid(input))
         

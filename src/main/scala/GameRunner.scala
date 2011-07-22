@@ -11,21 +11,36 @@ class GameRunner {
     var ui = new ConsoleUI(game)
     
     def main {
-        gameLoop
-        endGame
+        do {
+            gameLoop
+            endGame 
+        } while (playAgain)
+        
     }
     
     def gameLoop {
+        game.restart
         while (!game.isGameOver) {
             ui.displayBoard
-            var move = ui.getMoveFromUser
-            game.makeMove(move.toInt)
+            makeNextMove
+        }
+    }
+    
+    def makeNextMove {
+        if(game.isCurrentPlayerHuman) {
+            game.makeMove(ui.getMoveFromUser.toInt)
+        }
+        else {
             game.makeComputerMove
-            ui.displayBoard
         }
     }
     
     def endGame {
+        ui.displayBoard
         ui.gameOver
+    }
+    
+    def playAgain: Boolean = {
+        return (ui.askUserToPlayAgain == "true") 
     }
 }

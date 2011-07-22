@@ -36,10 +36,10 @@ class ConsoleUISpec extends Spec with BeforeAndAfter {
     
     describe("output") {
         
-        it("displays a message") {
-            ui.displayMessage("Welcome To Tic Tac Toe in Scala")
+        it("displays an input prompt") {
+            ui.inputPrompt("Enter a move - ")
 
-            verify(mockOut).printf("Welcome To Tic Tac Toe in Scala")
+            verify(mockOut).printf("Enter a move - ")
         }
         
         it("displays square info from game") {
@@ -53,7 +53,13 @@ class ConsoleUISpec extends Spec with BeforeAndAfter {
             
             ui.gameOver
             
-            verify(mockOut).printf("X wins!")
+            verify(mockOut).println("X wins!")
+        }
+        
+        it("displays message for computer's turn") {
+            ui.computerIsMakingMove
+            
+            verify(mockOut).println(ui.ComputerMoveMessage)
         }
         
     }
@@ -118,6 +124,7 @@ class ConsoleUISpec extends Spec with BeforeAndAfter {
             
             verify(mockOut).printf(ui.PlayAgainPrompt)
         }
+        
     }
     
     class StringParser extends InputParser {

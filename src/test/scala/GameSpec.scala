@@ -19,6 +19,8 @@ class GameSpec extends Spec with BeforeAndAfter {
     def createMockBoard = mock(classOf[Board])
     def createMockAlphaBeta = mock(classOf[AlphaBeta])
     
+    def currentPlayerIsPlayerTwo = game.switchCurrentPlayer
+    
     before {
         game = createGame
         mockBoard = createMockBoard
@@ -33,7 +35,7 @@ class GameSpec extends Spec with BeforeAndAfter {
         }
         
         it("switches current player from X to O") {
-            game.switchCurrentPlayer
+            currentPlayerIsPlayerTwo            
             
             expect("O") { game.getCurrentPlayer }
         }
@@ -43,8 +45,28 @@ class GameSpec extends Spec with BeforeAndAfter {
             
             expect("O") { game.getCurrentPlayer }
         }
+        
     }
 
+    describe("human and computer players") {
+        it("identifies 'X' as human player") {
+            expect(true) { game.isPlayerHuman("X") }
+        }
+        
+        it("identifies 'O' as computer player") {
+            expect(false) { game.isPlayerHuman("O") }
+        }
+        
+        it("identifies current player as human") {
+            expect(true) { game.isCurrentPlayerHuman }
+        }
+        
+        it("identifies current player as computer") {
+            currentPlayerIsPlayerTwo            
+            
+            expect(false) { game.isCurrentPlayerHuman }
+        }
+    }
     describe("interact with board") {
         it("sends a move to the board") {
             game.makeMove(0)
@@ -104,6 +126,18 @@ class GameSpec extends Spec with BeforeAndAfter {
     
             order.verify(mockAI).getMove(mockBoard)
             order.verify(mockBoard).makeMove(0, "X")
+        }
+    }
+    
+    describe("restart") {
+        it("clears board and resets current player to Player One") {
+            currentPlayerIsPlayerTwo
+            
+            game.restart
+            
+            expect("X") { game.getCurrentPlayer }
+            
+            verify(mockBoard).clear
         }
     }
 

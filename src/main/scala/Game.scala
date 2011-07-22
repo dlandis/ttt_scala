@@ -8,7 +8,7 @@ class Game {
     var board = new Board(PlayerOne, PlayerTwo)
     var ai = new AlphaBeta(PlayerTwo)
     
-    def getCurrentPlayer = currentPlayer
+    def getCurrentPlayer: String = currentPlayer
     
     def switchCurrentPlayer {
         if (currentPlayer == PlayerOne) { 
@@ -17,6 +17,14 @@ class Game {
         else {
             currentPlayer = PlayerOne
         }
+    }
+    
+    def isCurrentPlayerHuman: Boolean = {
+        return isPlayerHuman(getCurrentPlayer)
+    }
+    
+    def isPlayerHuman(symbol: String): Boolean = {
+        return (symbol == PlayerOne)
     }
     
     def makeMove(square: Int) = {
@@ -29,7 +37,7 @@ class Game {
         makeMove(square)
     }
     
-    def isGameOver = {
+    def isGameOver: Boolean = {
         board.isGameOver
     }
     
@@ -41,11 +49,14 @@ class Game {
         return board.isSquareUnoccupied(square)
     }
     
-    def getStatus = {
+    def getStatus: String = {
         board.status
     }
     
-    
+    def restart = {
+        board.clear
+        currentPlayer = PlayerOne
+    }
 
     
     def getMoveFromAI: Int = {

@@ -10,10 +10,10 @@ class Board(pOne:String, pTwo:String) {
     
     val currentPlayer = playerOne 
     
-    private[this] var boardValues = new Array[String](9)
-    for (i <- 0 to 8) { boardValues(i) = EmptySquare }
-    
     private[this] var boardStatus = InProgressStatus
+    private[this] var boardValues = new Array[String](9)
+    
+    this.clear
     
     def status: String = boardStatus
     
@@ -28,10 +28,10 @@ class Board(pOne:String, pTwo:String) {
     
     def updateStatus = {
         if ( isPlayerWinner("O") ) {
-            boardStatus = "O wins!"
+            boardStatus = playerTwo + " wins!"
         }
         else if ( isPlayerWinner("X") ) {
-            boardStatus = "X wins!"
+            boardStatus = playerOne + " wins!"
         }
         else if (allSquaresOccupied) {
             boardStatus = DrawStatus
@@ -79,7 +79,7 @@ class Board(pOne:String, pTwo:String) {
         rowsVictory(symbol) || columnsVictory(symbol) || diagonalsVictory(symbol)
     }
     
-    def rowsVictory(symbol:String) = {
+    private def rowsVictory(symbol:String) = {
         (
             threeInARow(symbol, (0, 1, 2) ) || 
             threeInARow(symbol, (3, 4, 5) ) || 
@@ -87,7 +87,7 @@ class Board(pOne:String, pTwo:String) {
         )
     }
     
-    def columnsVictory(symbol:String) = {
+    private def columnsVictory(symbol:String) = {
         (
             threeInARow(symbol, (0, 3, 6) ) || 
             threeInARow(symbol, (1, 4, 7) ) || 
@@ -95,25 +95,29 @@ class Board(pOne:String, pTwo:String) {
         )
     }
     
-    def diagonalsVictory(symbol:String) = {
+    private def diagonalsVictory(symbol:String) = {
         (
             threeInARow(symbol, (0, 4, 8) ) || 
             threeInARow(symbol, (2, 4, 6) )
         )
     }
     
-    def threeInARow(symbol:String, combo:Tuple3[Int, Int, Int]) = {
+    private def threeInARow(symbol:String, combo:Tuple3[Int, Int, Int]) = {
         (boardValues(combo._1) == symbol && boardValues(combo._2) == symbol && boardValues(combo._3) == symbol)
     }
     
-    def isAtDraw = {
+    def isAtDraw: Boolean = {
         boardStatus == DrawStatus
     }
     
-    def isGameOver = {
+    def isGameOver: Boolean = {
         boardStatus != InProgressStatus
     }
     
+    def clear = {
+        for (i <- 0 to 8) { boardValues(i) = EmptySquare }
+        boardStatus = InProgressStatus
+    }
 
     
     

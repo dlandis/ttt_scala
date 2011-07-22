@@ -176,4 +176,14 @@ class BoardSpec extends Spec with BeforeAndAfter {
             expect("X") { duplicatedBoard.getSquareValue(1) }
         }
     }
+    
+    describe("clearing") {
+        it("clears all squares and sets game status to in progress") {
+            draw(board)
+            
+            board.clear
+            
+            expect("Game In Progress") { board.status }
+        }
+    }
 }

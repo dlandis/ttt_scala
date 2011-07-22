@@ -31,6 +31,7 @@ class GameRunner {
             game.makeMove(ui.getMoveFromUser.toInt)
         }
         else {
+            ui.computerIsMakingMove
             game.makeComputerMove
         }
     }

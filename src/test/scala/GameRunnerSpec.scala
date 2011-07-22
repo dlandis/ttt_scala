@@ -142,7 +142,10 @@ class GameRunnerSpec extends Spec with BeforeAndAfter {
             
             gameRunner.makeNextMove
             
-            verify(mockGame).makeComputerMove
+            val order: InOrder = inOrder(mockUI, mockGame)
+            
+            order.verify(mockUI).computerIsMakingMove
+            order.verify(mockGame).makeComputerMove
         }
     }
 }

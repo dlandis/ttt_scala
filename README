@@ -1,0 +1,21 @@
+Tic Tac Toe in Scala
+
+1. Install Scala 2.9.0 with homebrew
+
+terminal> brew install scala 2.9.0
+
+2. Install Simple Build Tool with homebrew
+
+terminal> brew install sbt
+
+3. Run sbt in project directory
+
+terminal> sbt
+
+4. To run tests, inside sbt type:
+
+test
+
+5. To play tic tac toe, inside sbt type:
+
+run

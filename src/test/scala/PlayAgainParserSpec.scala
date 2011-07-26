@@ -24,7 +24,7 @@ class PlayAgainParserSpec extends Spec with BeforeAndAfter {
         List("yes", "YES", "Yeah", "Yno", "yrsgjl").foreach (
             input => {
                 it(input + " parses to true") {
-                    expect("true") {parser.parsedInput(input) }
+                    expect(true) {parser.parsedInput(input) }
                 }
             }
         )
@@ -32,7 +32,7 @@ class PlayAgainParserSpec extends Spec with BeforeAndAfter {
         List("well maybe", "no", "fyes", "afsdf").foreach (
             input => {
                 it(input + " parses to false") {
-                    expect("false") {parser.parsedInput(input) }
+                    expect(false) {parser.parsedInput(input) }
                 }
             }
         )

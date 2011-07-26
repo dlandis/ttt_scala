@@ -8,8 +8,8 @@ class ConsoleUI(game: Game) {
     var io = Console
     var in = io.in
     
-    var squareParser: InputParser = new SquareParser(game)
-    var playAgainParser: InputParser = new PlayAgainParser()
+    var squareParser = new SquareParser(game)
+    var playAgainParser = new PlayAgainParser()
     
 
     def inputPrompt(string: String) {
@@ -47,28 +47,39 @@ class ConsoleUI(game: Game) {
         println(ComputerMoveMessage)
     }
     
-    def getMoveFromUser: String = {
-        return getValueFromUser(squareParser, SquareSelectPrompt)
-    }
-    
-    def askUserToPlayAgain: String = {
-        return getValueFromUser(playAgainParser, PlayAgainPrompt)
-    }
-    
-    def getValueFromUser(parser: InputParser, message: String): String = {
-        val validInput = getValidInput(parser, message)
-        return parser.parsedInput(validInput)
-    }
-    
-    def getValidInput(parser: InputParser, message: String): String = {
+    def getMoveFromUser: Int = {
         var input = ""
         do {
-            inputPrompt(message)
+            inputPrompt(SquareSelectPrompt)
             input = getInput
-        } while (!parser.isValid(input))
+        } while (!squareParser.isValid(input))
         
-        return input
+        return squareParser.parsedInput(input)
     }
+    
+    def askUserToPlayAgain: Boolean = {
+        var input = ""
+        do {
+            inputPrompt(PlayAgainPrompt)
+            input = getInput
+        } while (!playAgainParser.isValid(input))
+        
+        return playAgainParser.parsedInput(input)
+    }
+    // 
+    // def getValueFromUser(parser: InputParser, message: String): String = {
+    //     return getValidInput(parser, message)
+    // }
+    // 
+    // def getValidInput(parser: InputParser, message: String): String = {
+    //     var input = ""
+    //     do {
+    //         inputPrompt(message)
+    //         input = getInput
+    //     } while (!parser.isValid(input))
+    //     
+    //     return input
+    // }
     
     def getInput: String = {
         return readLine.trim

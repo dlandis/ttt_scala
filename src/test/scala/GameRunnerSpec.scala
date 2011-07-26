@@ -28,7 +28,7 @@ class GameRunnerSpec extends Spec with BeforeAndAfter {
     describe("running the game") {
         
         it("runs the game loop") {
-            when(mockUI.getMoveFromUser).thenReturn("4")
+            when(mockUI.getMoveFromUser).thenReturn(4)
             when(mockGame.isCurrentPlayerHuman)
                 .thenReturn(true)
                 .thenReturn(false)
@@ -73,8 +73,8 @@ class GameRunnerSpec extends Spec with BeforeAndAfter {
                 .thenReturn(true)
                 
             when(mockUI.askUserToPlayAgain)
-                .thenReturn("true")
-                .thenReturn("false")
+                .thenReturn(true)
+                .thenReturn(false)
                 
             gameRunner.main
             
@@ -114,13 +114,13 @@ class GameRunnerSpec extends Spec with BeforeAndAfter {
     
     describe("playing again") {
         it("restarts game if user wants to play again") {
-            when(mockUI.askUserToPlayAgain).thenReturn("true")
+            when(mockUI.askUserToPlayAgain).thenReturn(true)
             
             expect(true) { gameRunner.playAgain }
         }
         
         it("does not restart game if user does not want to play") {
-            when(mockUI.askUserToPlayAgain).thenReturn("false")
+            when(mockUI.askUserToPlayAgain).thenReturn(false)
             
             expect(false) { gameRunner.playAgain }           
         }
@@ -130,7 +130,7 @@ class GameRunnerSpec extends Spec with BeforeAndAfter {
         
         it("makes next move from ui if player is human") {
             when(mockGame.isCurrentPlayerHuman).thenReturn(true)
-            when(mockUI.getMoveFromUser).thenReturn("0")
+            when(mockUI.getMoveFromUser).thenReturn(0)
             
             gameRunner.makeNextMove
             

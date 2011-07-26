@@ -42,6 +42,6 @@ class GameRunner {
     }
     
     def playAgain: Boolean = {
-        return (ui.askUserToPlayAgain == "true") 
+        return (ui.askUserToPlayAgain) 
     }
 }

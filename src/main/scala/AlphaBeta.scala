@@ -73,7 +73,7 @@ class AlphaBeta(playerSymbol: String) {
                     bestScore = newScore
                 }
                 
-                if (currentPlayer == maxPlayer) {
+                if (inMaxSearchLevel(currentPlayer)) {
                     alpha = bestScore
                 }
                 else {
@@ -103,14 +103,18 @@ class AlphaBeta(playerSymbol: String) {
         return score
     }
     
-    def isBetterMove(currentPlayer:String, newScore:Int, bestScore:Int): Boolean = {
+    private def isBetterMove(currentPlayer:String, newScore:Int, bestScore:Int): Boolean = {
         if (currentPlayer == maxPlayer) {
             return ( newScore > bestScore )
         }
         return ( newScore < bestScore )
     }
     
-    def startingBestScore(currentPlayer: String): Int = {
+    private def inMaxSearchLevel(currentPlayer: String): Boolean = {
+        return currentPlayer == maxPlayer
+    }
+    
+    private def startingBestScore(currentPlayer: String): Int = {
         if (currentPlayer == maxPlayer) {
             return MaxStartValue
         }

@@ -6,15 +6,15 @@ Tic Tac Toe in Scala
 
 brew install sbt
 
-# Within Project Directory
-  ## Install Dependencies:
+## Within Project Directory
+  ### Install Dependencies
 
-    sbt update
+  sbt update
 
-  ## Run tests:
+  ### Run tests
 
-    sbt test
+  sbt test
 
-  ## Play Tic Tac Toe:
+  ### Play Tic Tac Toe
 
-    sbt run
+  sbt run

@@ -2,7 +2,7 @@ Tic Tac Toe in Scala
 ====================
 
 
-### Install Simple Build Tool with homebrew:
+### Install Simple Build Tool with homebrew
 
 brew install sbt
 

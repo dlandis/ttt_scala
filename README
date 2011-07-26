@@ -1,17 +1,20 @@
 Tic Tac Toe in Scala
 
-1. Install Simple Build Tool with homebrew
+
+Install Simple Build Tool with homebrew:
 
 brew install sbt
 
-2. From project directory, run:
 
-sbt update
+Within Project Directory
+  1. Install Dependencies:
 
-3. To run tests:
+  sbt update
 
-sbt test
+  3. Run tests:
 
-4. To play tic tac toe:
+  sbt test
 
-sbt run
+  4. Play Tic Tac Toe:
+
+  sbt run

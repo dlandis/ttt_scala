@@ -2,6 +2,7 @@ import org.scalatest.Spec
 import org.scalatest.BeforeAndAfter
 import org.mockito.Mockito._
 import org.mockito.Matchers._
+import org.mockito.InOrder
 import java.io.PrintStream
 import java.io.BufferedReader
 
@@ -68,6 +69,17 @@ class ConsoleUISpec extends Spec with BeforeAndAfter {
             when(mockIn.readLine).thenReturn("    foo     ")
             
             expect("foo") { ui.getInput }
+        }
+        
+        it("sends a carriage return after input") {
+            when(mockIn.readLine).thenReturn("foo")
+            
+            ui.getInput
+            
+            val order: InOrder = inOrder(mockIn, mockOut)
+            
+            order.verify(mockIn).readLine
+            order.verify(mockOut).println
         }
         
         it("prompts user until valid input received")  {

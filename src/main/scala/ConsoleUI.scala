@@ -72,7 +72,9 @@ class ConsoleUI(game: Game) {
     }
     
     def getInput: String = {
-        return readLine.trim
+        val input = readLine.trim
+        io.out.println()
+        return input
     }
     
     private def readLine: String = {

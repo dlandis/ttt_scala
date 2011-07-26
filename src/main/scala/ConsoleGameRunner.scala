@@ -1,7 +1,7 @@
 package com.tictactoe
 
 
-class GameRunner {
+class ConsoleGameRunner {
     var game = new Game()
     var ui = new ConsoleUI(game)
     

@@ -55,52 +55,44 @@ class AlphaBeta(playerSymbol: String) {
     
     def alphabeta(board: Board, currentPlayer: String, a:Int, b:Int, depth: Int): Int = {
         if ( board.isGameOver ) {
-            return heuristicValueOfLastMove(board, depth)
+            return scoreOfLastMove(board, depth)
         }
 
         val opponent = board.opponentOf(currentPlayer)
         var bestScore = startingBestScore(currentPlayer)
         var alpha = a
         var beta = b
-        
-        breakable {
-            board.unoccupiedSquares.foreach ( square => {
-                board.makeMove(square, currentPlayer)
-                var newScore = alphabeta(board, opponent, alpha, beta, depth + 1)
-                board.undoMove(square)
-                
-                if ( isBetterMove(currentPlayer, newScore, bestScore)) {
-                    bestScore = newScore
-                }
-                
-                if (inMaxSearchLevel(currentPlayer)) {
-                    alpha = bestScore
-                }
-                else {
-                    beta = bestScore
-                }
 
-                if ( beta <= alpha ) { break }
-                
-            })
-        }
+        board.unoccupiedSquares.foreach ( square => {
+            board.makeMove(square, currentPlayer)
+            var newScore = alphabeta(board, opponent, alpha, beta, depth + 1)
+            board.undoMove(square)
+            
+            if ( isBetterMove(currentPlayer, newScore, bestScore)) {
+                bestScore = newScore
+            }
+            
+            if (inMaxSearchLevel(currentPlayer)) { alpha = bestScore } 
+            else { beta = bestScore }
+            
+            if ( shouldPrune(alpha, beta) ) { return bestScore }
+        })
+
         return bestScore
     }
     
-    def heuristicValueOfLastMove(board: Board, depth: Int): Int = {
-        var score = InProgressScore
-
+    def scoreOfLastMove(board: Board, depth: Int): Int = {
         if ( board.isPlayerWinner(maxPlayer) ) {
-            score = MaxScore - depth
+            return MaxScore - depth
         }
         else if ( board.isPlayerWinner(board.opponentOf(maxPlayer)) ) {
-            score = MinScore + depth
+           return MinScore + depth
         }
         else if ( board.isAtDraw ) {
-            score = DrawScore
+            return DrawScore
         }
         
-        return score
+        return InProgressScore
     }
     
     private def isBetterMove(currentPlayer:String, newScore:Int, bestScore:Int): Boolean = {
@@ -119,6 +111,10 @@ class AlphaBeta(playerSymbol: String) {
             return MaxStartValue
         }
         return MinStartValue
+    }
+    
+    private def shouldPrune(alpha: Int, beta: Int): Boolean = {
+         return beta <= alpha 
     }
     
 }

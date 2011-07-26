@@ -5,17 +5,19 @@ import org.mockito.InOrder
 import org.mockito.Matchers._
 
 
-import com.tictactoe.GameRunner
+import com.tictactoe.ConsoleGameRunner
 import com.tictactoe.Game
 import com.tictactoe.ConsoleUI
 
-class GameRunnerSpec extends Spec with BeforeAndAfter {
+class ConsoleGameRunnerSpec extends Spec with BeforeAndAfter {
     var mockGame = createMockGame
     var mockUI = createMockUI
-    var gameRunner = new GameRunner()
+    var gameRunner = new ConsoleGameRunner()
     
     def createMockGame = mock(classOf[Game])
     def createMockUI = mock(classOf[ConsoleUI])
+    
+
     
     before {
         mockGame = createMockGame
@@ -28,6 +30,14 @@ class GameRunnerSpec extends Spec with BeforeAndAfter {
     describe("running the game") {
         
         it("runs the game loop") {
+            setUpGameLoopMocks
+                
+            gameRunner.gameLoop
+                    
+            verifyOrderOfCalls
+        }
+        
+        def setUpGameLoopMocks {
             when(mockUI.getMoveFromUser).thenReturn(4)
             when(mockGame.isCurrentPlayerHuman)
                 .thenReturn(true)
@@ -36,21 +46,20 @@ class GameRunnerSpec extends Spec with BeforeAndAfter {
                 .thenReturn(false)
                 .thenReturn(false)
                 .thenReturn(true)
-                
-            gameRunner.gameLoop
-            
-            val order: InOrder = 
-                inOrder(
-                    mockGame,
-                    mockGame,
-                    mockUI, 
-                    mockUI, 
-                    mockGame,
-                    mockGame,
-                    mockUI,
-                    mockGame,
-                    mockGame
-                )
+        }
+
+        def verifyOrderOfCalls {
+            val order: InOrder = inOrder(
+                mockGame,
+                mockGame,
+                mockUI, 
+                mockUI, 
+                mockGame,
+                mockGame,
+                mockUI,
+                mockGame,
+                mockGame
+            )
             
             order.verify(mockGame).restart
             order.verify(mockGame).isGameOver
@@ -61,44 +70,10 @@ class GameRunnerSpec extends Spec with BeforeAndAfter {
             order.verify(mockUI).displayBoard
             order.verify(mockGame).makeComputerMove
             order.verify(mockGame).isGameOver
-            
         }
-        
+
     }
-    
-    describe("main") {
-        it("loops until user doesn't want to play again") {
-            when(mockGame.isGameOver)
-                .thenReturn(true)
-                .thenReturn(true)
-                
-            when(mockUI.askUserToPlayAgain)
-                .thenReturn(true)
-                .thenReturn(false)
-                
-            gameRunner.main
-            
-            val order: InOrder = 
-                inOrder(
-                    mockGame, 
-                    mockUI,
-                    mockUI, 
-                    mockGame, 
-                    mockGame,
-                    mockUI,
-                    mockUI
-                )
-                
-            order.verify(mockGame).isGameOver
-            order.verify(mockUI).gameOver
-            order.verify(mockUI).askUserToPlayAgain
-            order.verify(mockGame).restart
-            order.verify(mockGame).isGameOver
-            order.verify(mockUI).gameOver
-            order.verify(mockUI).askUserToPlayAgain
-        }
-    }
-    
+       
     describe("end game") {
         it("displays the game status") {
             when(mockGame.getStatus).thenReturn("Some Game Status")
@@ -148,4 +123,45 @@ class GameRunnerSpec extends Spec with BeforeAndAfter {
             order.verify(mockGame).makeComputerMove
         }
     }
+    
+    describe("main") {
+       it("loops until user doesn't want to play again") {
+           setUpMainLoopMocks
+
+           gameRunner.main
+
+           verifyOrderOfCalls
+       }
+
+       def setUpMainLoopMocks {
+           when(mockGame.isGameOver)
+               .thenReturn(true)
+               .thenReturn(true)
+
+           when(mockUI.askUserToPlayAgain)
+               .thenReturn(true)
+               .thenReturn(false)
+       }
+
+       def verifyOrderOfCalls {
+           val order: InOrder = 
+               inOrder(
+                   mockGame, 
+                   mockUI,
+                   mockUI, 
+                   mockGame, 
+                   mockGame,
+                   mockUI,
+                   mockUI
+               )
+
+           order.verify(mockGame).isGameOver
+           order.verify(mockUI).gameOver
+           order.verify(mockUI).askUserToPlayAgain
+           order.verify(mockGame).restart
+           order.verify(mockGame).isGameOver
+           order.verify(mockUI).gameOver
+           order.verify(mockUI).askUserToPlayAgain
+       }
+   }
 }

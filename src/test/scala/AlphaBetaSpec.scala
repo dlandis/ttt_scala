@@ -113,39 +113,39 @@ class AlphaBetaSpec extends Spec with BeforeAndAfter {
         it("scores draws as 0") {
             draw(board)
 
-            expect(0) { alphaBeta.heuristicValueOfLastMove(board, 0) }
+            expect(0) { alphaBeta.scoreOfLastMove(board, 0) }
         }
         
         it("scores games in progress as -1") {
             board.makeMove(0, "X")
             
-            expect(-1) { alphaBeta.heuristicValueOfLastMove(board, 0) }
+            expect(-1) { alphaBeta.scoreOfLastMove(board, 0) }
         }
         
         it("scores wins for alphaBeta player as 20 for depth of 0") {
             win(AlphaBetaPlayer, board)
             
-            expect(20) { alphaBeta.heuristicValueOfLastMove(board, 0) }
+            expect(20) { alphaBeta.scoreOfLastMove(board, 0) }
         }
         
         it("subtracts move depth from max score of 20 for alphabeta player") {
             win(AlphaBetaPlayer, board)
             
-            expect(19) { alphaBeta.heuristicValueOfLastMove(board, 1) }
-            expect(18) { alphaBeta.heuristicValueOfLastMove(board, 2) }
+            expect(19) { alphaBeta.scoreOfLastMove(board, 1) }
+            expect(18) { alphaBeta.scoreOfLastMove(board, 2) }
         }
         
         it("scores wins for opponent as -20 for depth of 0") {
             win(Opponent, board)
             
-            expect(-20) { alphaBeta.heuristicValueOfLastMove(board, 0) }
+            expect(-20) { alphaBeta.scoreOfLastMove(board, 0) }
         }
         
         it("subtracts move depth from max score of -20 for opponent") {
             win(Opponent, board)
             
-            expect(-19) { alphaBeta.heuristicValueOfLastMove(board, 1) }
-            expect(-18) { alphaBeta.heuristicValueOfLastMove(board, 2) }
+            expect(-19) { alphaBeta.scoreOfLastMove(board, 1) }
+            expect(-18) { alphaBeta.scoreOfLastMove(board, 2) }
         }
         
     }

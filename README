@@ -4,11 +4,15 @@ Tic Tac Toe in Scala
 
 terminal> brew install sbt
 
-2. Run sbt in project directory
+2. Start sbt in project directory
 
 terminal> sbt
 
-This should download scala 2.9.0 and the project dependencies.
+This should download the required scala version.
+
+3. To get managed dependencies, inside sbt type:
+
+update
 
 3. To run tests, inside sbt type:
 

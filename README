@@ -2,22 +2,16 @@ Tic Tac Toe in Scala
 
 1. Install Simple Build Tool with homebrew
 
-terminal> brew install sbt
+brew install sbt
 
-2. Start sbt in project directory
+2. From project directory, run:
 
-terminal> sbt
+sbt update
 
-This should download the required scala version.
+3. To run tests:
 
-3. To get managed dependencies, inside sbt type:
+sbt test
 
-update
+4. To play tic tac toe:
 
-3. To run tests, inside sbt type:
-
-test
-
-4. To play tic tac toe, inside sbt type:
-
-run
+sbt run

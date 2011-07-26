@@ -70,32 +70,21 @@ class ConsoleUISpec extends Spec with BeforeAndAfter {
             expect("foo") { ui.getInput }
         }
         
-        it("prompts user until valid input received") (pending) // {
-        //             var mockParser = mock(classOf[StringParser])
-        //             ui.squareParser = mockParser
-        //             
-        //             when (mockParser.isValid(anyString()))
-        //                 .thenReturn(false)
-        //                 .thenReturn(false)
-        //                 .thenReturn(true)    
-        //             when(mockIn.readLine).thenReturn("foo")
-        //                 
-        //             expect("foo") { ui.getValidInput(mockParser, "enter foo") }  
-        //             
-        //             verify(mockOut, times(3)).printf("enter foo")          
-        //             verify(mockParser, times(3)).isValid(anyString())
-        //         }
-        
-        it("gets value from user") (pending) // {
-        //             var mockParser = mock(classOf[StringParser])
-        //             
-        //             when (mockParser.isValid(anyString())).thenReturn(true)
-        //             when(mockIn.readLine).thenReturn("foo")
-        //             
-        //             expect("foo") { ui.getValueFromUser(mockParser, "enter foo") } 
-        //             
-        //             verify(mockOut).printf("enter foo")
-        //         }
+        it("prompts user until valid input received")  {
+            var mockParser = mock(classOf[StringParser])
+            
+            when (mockParser.isValid(anyString()))
+                .thenReturn(false)
+                .thenReturn(false)
+                .thenReturn(true)    
+            when(mockIn.readLine).thenReturn("foo")
+            
+            val validate = (input:String) => mockParser.isValid(input)    
+            expect("foo") { ui.getValidInput(validate, "enter foo") }  
+            
+            verify(mockOut, times(3)).printf("enter foo")          
+            verify(mockParser, times(3)).isValid(anyString())
+        }
         
         it("gets a move from user") {
             var mockParser = mock(classOf[SquareParser])

@@ -116,7 +116,6 @@ class GameSpec extends Spec with BeforeAndAfter {
         
         it("sends AI move to board") {
             when(mockAI.getMove(mockBoard)).thenReturn(0)
-            
             val order: InOrder = inOrder(mockBoard, mockAI)
             
             game.makeComputerMove

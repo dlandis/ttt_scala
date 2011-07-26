@@ -1,11 +1,6 @@
 package com.tictactoe
 
-object Main {
-    def main(args:Array[String]){
-        val gameRunner = new GameRunner()
-        gameRunner.main
-    }
-}
+
 class GameRunner {
     var game = new Game()
     var ui = new ConsoleUI(game)

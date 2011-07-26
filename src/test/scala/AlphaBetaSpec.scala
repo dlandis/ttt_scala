@@ -41,20 +41,6 @@ class AlphaBetaSpec extends Spec with BeforeAndAfter {
         board = new Board(Opponent, AlphaBetaPlayer)
     }
     
-    // describe("benchmark") {
-    //     it("finds the first move on empty board in < 300 ms") {
-    //     
-    //         val startTime = System.currentTimeMillis()
-    //         
-    //         expect(0) { alphaBeta.getMove(board) }
-    //         
-    //         val endTime = System.currentTimeMillis()
-    //         val benchmark = endTime - startTime
-    //         
-    //         expect(true) { benchmark < 300 }
-    //     }
-    // }
-    
     describe("get moves") {
         
         it("take top left corner if board is blank") {

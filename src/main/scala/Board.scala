@@ -10,10 +10,10 @@ class Board(pOne:String, pTwo:String) {
     
     val currentPlayer = playerOne 
     
-    private[this] var boardStatus = InProgressStatus
-    private[this] var boardValues = new Array[String](9)
+    private var boardStatus = InProgressStatus
+    private val boardValues = new Array[String](9)
     
-    this.clear
+    clear
     
     def status: String = boardStatus
     

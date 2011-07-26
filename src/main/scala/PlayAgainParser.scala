@@ -1,6 +1,6 @@
 package com.tictactoe
 
-class PlayAgainParser extends InputParser {
+class PlayAgainParser {
     def parsedInput(input: String): Boolean = {
         return input.matches("[Yy].*")
     }

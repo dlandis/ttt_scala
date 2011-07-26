@@ -124,8 +124,7 @@ class ConsoleUISpec extends Spec with BeforeAndAfter {
     }
     
     class StringParser {
-        type ParsedValue = String
-        def parsedInput(input: String): ParsedValue = {
+        def parsedInput(input: String): String = {
             return "foo"
         }
 

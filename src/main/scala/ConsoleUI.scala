@@ -5,7 +5,7 @@ class ConsoleUI(game: Game) {
     val PlayAgainPrompt = "Play again? (Y/N) - "
     val ComputerMoveMessage = "Computer's turn..."
     
-    var io = Console
+    val io = Console
     var in = io.in
     
     var squareParser = new SquareParser(game)

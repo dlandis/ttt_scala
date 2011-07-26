@@ -1,6 +1,6 @@
 package com.tictactoe
 
-class SquareParser(game: Game) extends InputParser {
+class SquareParser(game: Game) {
  
     def parsedInput(input: String): Int = {
         return inputMinusOne(input)

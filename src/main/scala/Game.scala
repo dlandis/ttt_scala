@@ -1,10 +1,10 @@
 package com.tictactoe
 
 class Game {
-    private[this] val PlayerOne = "X"
-    private[this] val PlayerTwo = "O"
+    private val PlayerOne = "X"
+    private val PlayerTwo = "O"
     
-    private[this] var currentPlayer = PlayerOne
+    private var currentPlayer = PlayerOne
     var board = new Board(PlayerOne, PlayerTwo)
     var ai = new AlphaBeta(PlayerTwo)
     

@@ -23,7 +23,7 @@ class ConsoleGameRunner {
     
     def makeNextMove {
         if(game.isCurrentPlayerHuman) {
-            game.makeMove(ui.getMoveFromUser.toInt)
+            game.makeMove(ui.getMoveFromUser)
         }
         else {
             ui.computerIsMakingMove

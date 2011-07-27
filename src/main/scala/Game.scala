@@ -1,21 +1,21 @@
 package com.tictactoe
 
 class Game {
-    private val PlayerOne = "X"
-    private val PlayerTwo = "O"
+    val playerOne = new Player("X")
+    val playerTwo = new Player("O", false)
     
-    private var currentPlayer = PlayerOne
-    var board = new Board(PlayerOne, PlayerTwo)
-    var ai = new AlphaBeta(PlayerTwo)
+    private var currentPlayer = playerOne
+    var board = new Board(playerOne.symbol, playerTwo.symbol)
+    var ai = new AlphaBeta(playerTwo.symbol)
     
-    def getCurrentPlayer: String = currentPlayer
+    def getCurrentPlayer: Player = currentPlayer
     
     def isCurrentPlayerHuman: Boolean = {
-        return isPlayerHuman(getCurrentPlayer)
+        return currentPlayer.isHuman
     }
     
-    def isPlayerHuman(symbol: String): Boolean = {
-        return (symbol == PlayerOne)
+    def isPlayerHuman(player: Player): Boolean = {
+        return player.isHuman
     }
     
     def makeComputerMove {
@@ -28,16 +28,16 @@ class Game {
     }
     
     def makeMove(square: Int) = {
-        board.makeMove(square, currentPlayer)
+        board.makeMove(square, currentPlayer.symbol)
         switchCurrentPlayer
     }
     
     def switchCurrentPlayer {
-        if (currentPlayer == PlayerOne) { 
-            currentPlayer = PlayerTwo
+        if (currentPlayer == playerOne) { 
+            currentPlayer = playerTwo
         }
         else {
-            currentPlayer = PlayerOne
+            currentPlayer = playerOne
         }
     }
     
@@ -59,6 +59,6 @@ class Game {
     
     def restart = {
         board.clear
-        currentPlayer = PlayerOne
+        currentPlayer = playerOne
     }
 }

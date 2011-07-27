@@ -31,30 +31,30 @@ class GameSpec extends Spec with BeforeAndAfter {
     
     describe("current player") {
         it("current player starts as 'X'") {
-            expect("X") { game.getCurrentPlayer }
+            expect(game.playerOne) { game.getCurrentPlayer }
         }
         
         it("switches current player from X to O") {
             currentPlayerIsPlayerTwo            
             
-            expect("O") { game.getCurrentPlayer }
+            expect(game.playerTwo) { game.getCurrentPlayer }
         }
         
         it("switches current player when makemove is called") {
             game.makeMove(0)
             
-            expect("O") { game.getCurrentPlayer }
+            expect(game.playerTwo) { game.getCurrentPlayer }
         }
         
     }
 
     describe("human and computer players") {
         it("identifies 'X' as human player") {
-            expect(true) { game.isPlayerHuman("X") }
+            expect(true) { game.isPlayerHuman(game.playerOne) }
         }
         
         it("identifies 'O' as computer player") {
-            expect(false) { game.isPlayerHuman("O") }
+            expect(false) { game.isPlayerHuman(game.playerTwo) }
         }
         
         it("identifies current player as human") {
@@ -121,7 +121,7 @@ class GameSpec extends Spec with BeforeAndAfter {
             game.makeComputerMove
             
             expect(0) { game.getMoveFromAI }
-            expect("O") { game.getCurrentPlayer }
+            expect(game.playerTwo) { game.getCurrentPlayer }
     
             order.verify(mockAI).getMove(mockBoard)
             order.verify(mockBoard).makeMove(0, "X")
@@ -134,7 +134,7 @@ class GameSpec extends Spec with BeforeAndAfter {
             
             game.restart
             
-            expect("X") { game.getCurrentPlayer }
+            expect(game.playerOne) { game.getCurrentPlayer }
             
             verify(mockBoard).clear
         }

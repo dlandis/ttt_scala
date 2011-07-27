@@ -43,7 +43,7 @@ class AlphaBeta(playerSymbol: String) {
         
         moveScores.foreach { 
             case (square, value) => {
-                if ( value > bestScore) {
+                if ( value > bestScore ) {
                     bestScore = value
                     bestMove = square
                 }
@@ -68,11 +68,11 @@ class AlphaBeta(playerSymbol: String) {
             var newScore = alphabeta(board, opponent, alpha, beta, depth + 1)
             board.undoMove(square)
             
-            if ( isBetterMove(currentPlayer, newScore, bestScore)) {
+            if ( isBetterMove(currentPlayer, newScore, bestScore) ) {
                 bestScore = newScore
             }
             
-            if (inMaxSearchLevel(currentPlayer)) { alpha = bestScore } 
+            if ( inMaxSearchLevel(currentPlayer) ) { alpha = bestScore } 
             else { beta = bestScore }
             
             if ( shouldPrune(alpha, beta) ) { return bestScore }

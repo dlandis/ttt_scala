@@ -124,11 +124,11 @@ class ConsoleGameRunnerSpec extends Spec with BeforeAndAfter {
         }
     }
     
-    describe("main") {
+    describe("run") {
        it("loops until user doesn't want to play again") {
            setUpMainLoopMocks
 
-           gameRunner.main
+           gameRunner.run
 
            verifyOrderOfCalls
        }

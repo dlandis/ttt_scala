@@ -5,7 +5,7 @@ class ConsoleGameRunner {
     var game = new Game()
     var ui = new ConsoleUI(game)
     
-    def main {
+    def run {
         do {
             gameLoop
             endGame 

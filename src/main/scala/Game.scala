@@ -10,15 +10,6 @@ class Game {
     
     def getCurrentPlayer: String = currentPlayer
     
-    def switchCurrentPlayer {
-        if (currentPlayer == PlayerOne) { 
-            currentPlayer = PlayerTwo
-        }
-        else {
-            currentPlayer = PlayerOne
-        }
-    }
-    
     def isCurrentPlayerHuman: Boolean = {
         return isPlayerHuman(getCurrentPlayer)
     }
@@ -27,14 +18,27 @@ class Game {
         return (symbol == PlayerOne)
     }
     
+    def makeComputerMove {
+        val square = getMoveFromAI
+        makeMove(square)
+    }
+    
+    def getMoveFromAI: Int = {
+        ai.getMove(board)
+    }
+    
     def makeMove(square: Int) = {
         board.makeMove(square, currentPlayer)
         switchCurrentPlayer
     }
     
-    def makeComputerMove {
-        val square = getMoveFromAI
-        makeMove(square)
+    def switchCurrentPlayer {
+        if (currentPlayer == PlayerOne) { 
+            currentPlayer = PlayerTwo
+        }
+        else {
+            currentPlayer = PlayerOne
+        }
     }
     
     def isGameOver: Boolean = {
@@ -56,10 +60,5 @@ class Game {
     def restart = {
         board.clear
         currentPlayer = PlayerOne
-    }
-
-    
-    def getMoveFromAI: Int = {
-        ai.getMove(board)
     }
 }

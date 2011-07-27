@@ -15,5 +15,5 @@ class SquareParser(game: Game) {
         )
     }
     
-    def inputMinusOne(input: String): Int = input.toInt - 1
+    private def inputMinusOne(input: String): Int = input.toInt - 1
 }

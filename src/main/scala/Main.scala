@@ -4,6 +4,6 @@ object Main {
     val runner = new ConsoleGameRunner()
     
     def main(args:Array[String]){
-        runner.main
+        runner.run
     }
 }

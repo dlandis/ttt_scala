@@ -49,7 +49,7 @@ class Board(pOne:String, pTwo:String) {
             duplicatedBoard.makeMove(i, this.getSquareValue(i))
         }
         
-        duplicatedBoard
+        return duplicatedBoard
     }
     
     def opponentOf(symbol: String): String = {

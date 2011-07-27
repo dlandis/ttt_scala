@@ -1,7 +1,5 @@
 package com.tictactoe
 
-import scala.util.control.Breaks._
-
 class AlphaBeta(playerSymbol: String) {
     
     private val maxPlayer = playerSymbol

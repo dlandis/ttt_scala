@@ -49,14 +49,6 @@ class GameSpec extends Spec with BeforeAndAfter {
     }
 
     describe("human and computer players") {
-        it("identifies 'X' as human player") {
-            expect(true) { game.isPlayerHuman(game.playerOne) }
-        }
-        
-        it("identifies 'O' as computer player") {
-            expect(false) { game.isPlayerHuman(game.playerTwo) }
-        }
-        
         it("identifies current player as human") {
             expect(true) { game.isCurrentPlayerHuman }
         }
@@ -73,7 +65,6 @@ class GameSpec extends Spec with BeforeAndAfter {
             
             verify(mockBoard).makeMove(0, "X")
         }
-        
         
         it("determines if game is over") {
             game.isGameOver

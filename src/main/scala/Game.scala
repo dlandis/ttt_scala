@@ -14,10 +14,6 @@ class Game {
         return currentPlayer.isHuman
     }
     
-    def isPlayerHuman(player: Player): Boolean = {
-        return player.isHuman
-    }
-    
     def makeComputerMove {
         val square = getMoveFromAI
         makeMove(square)

@@ -1,5 +1,3 @@
 package com.tictactoe
 
-class Player(val symbol: String, var isHuman: Boolean = true) {
-    
-}
+class Player(val symbol: String, var isHuman: Boolean = true) {}

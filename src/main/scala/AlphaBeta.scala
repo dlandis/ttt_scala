@@ -4,15 +4,15 @@ import scala.util.control.Breaks._
 
 class AlphaBeta(playerSymbol: String) {
     
-    private[this] val maxPlayer = playerSymbol
+    private val maxPlayer = playerSymbol
     
-    private[this] val MaxScore = 20
-    private[this] val MinScore = -20
-    private[this] val DrawScore = 0
-    private[this] val InProgressScore = -1
-    private[this] val MaxStartValue = -100
-    private[this] val MinStartValue = 100
-    private[this] val DepthStartValue = 0 
+    private val MaxScore = 20
+    private val MinScore = -20
+    private val DrawScore = 0
+    private val InProgressScore = -1
+    private val MaxStartValue = -100
+    private val MinStartValue = 100
+    private val DepthStartValue = 0 
     
         
     def getMove(board: Board): Int = {

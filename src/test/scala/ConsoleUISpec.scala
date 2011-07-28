@@ -89,6 +89,20 @@ class ConsoleUISpec extends Spec with BeforeAndAfter {
             order.verify(mockOut).println
         }
         
+        describe("exiting early") {
+            it("throws exception if user enters 'quit'") {
+                when(mockIn.readLine).thenReturn("quit")
+
+                try {
+                    ui.getInput
+                    fail()
+                }
+                catch {
+                    case _: java.io.IOException => expect(true) { true }
+                }
+            } 
+        }
+        
         it("prompts user until valid input received")  {
             var mockParser = mock(classOf[StringParser])
             when (mockParser.isValid(anyString()))

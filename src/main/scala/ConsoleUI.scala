@@ -2,7 +2,7 @@ package com.tictactoe
 
 class ConsoleUI(game: Game) {
     val WelcomeMessage = "\nWelcome to Tic Tac Toe in Scala!"
-    val InstructionsMessage = "You are 'X', and X goes first.\n"
+    val InstructionsMessage = "You are 'X', and X goes first.\nQuit at any time by typing 'quit'\n"
     val InvalidMessage = "Invalid selection. "
     val SquareSelectPrompt = "Please select an empty square (1-9) - "
     val PlayAgainPrompt = "Play again? (Y/N) - "
@@ -82,7 +82,13 @@ class ConsoleUI(game: Game) {
     def getInput: String = {
         val input = readLine.trim
         blankLine
+        if (shouldQuit(input)) throw new java.io.IOException()
         return input
+    }
+    
+    private def shouldQuit(input: String): Boolean = {
+        val quitOptions = List("quit", "^[")
+        return (quitOptions.contains(input))
     }
     
     private def readLine: String = {

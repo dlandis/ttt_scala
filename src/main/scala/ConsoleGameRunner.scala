@@ -5,13 +5,18 @@ class ConsoleGameRunner {
     var game = new Game()
     var ui = new ConsoleUI(game)
     
+    val QuitMessage = "Quitting. Thanks for playing."
+    
     def run {
-        ui.welcomeUser
-        do {
-            gameLoop
-            endGame 
-        } while (playAgain)
-        
+        try {
+            ui.welcomeUser
+            do {
+                gameLoop
+                endGame 
+            } while (playAgain)
+        } catch {
+            case e: java.io.IOException => println(QuitMessage)            
+        }
     }
     
     def gameLoop {

@@ -1,9 +1,11 @@
 package com.tictactoe
 
 class ConsoleUI(game: Game) {
+    val WelcomeMessage = "\nWelcome to Tic Tac Toe in Scala!"
+    val InstructionsMessage = "You are 'X', and X goes first.\n"
     val SquareSelectPrompt = "Please select a square (1-9) - "
     val PlayAgainPrompt = "Play again? (Y/N) - "
-    val ComputerMoveMessage = "Computer's turn..."
+    val ComputerMoveMessage = "Computer's turn...\n"
     
     val io = Console
     var in = io.in
@@ -34,6 +36,10 @@ class ConsoleUI(game: Game) {
         )
     }
     
+    def welcomeUser {
+        println(WelcomeMessage)
+        println(InstructionsMessage)
+    }
     def gameOver {
         println(game.getStatus)
     }
@@ -73,7 +79,7 @@ class ConsoleUI(game: Game) {
     
     def getInput: String = {
         val input = readLine.trim
-        io.out.println()
+        println("")
         return input
     }
     

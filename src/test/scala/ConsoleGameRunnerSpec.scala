@@ -125,15 +125,23 @@ class ConsoleGameRunnerSpec extends Spec with BeforeAndAfter {
     }
     
     describe("run") {
-       it("loops until user doesn't want to play again") {
+        it("welcomes the user") {
+            setUpMainLoopMocks
+            
+            gameRunner.run
+            
+            verify(mockUI).welcomeUser
+        }
+        
+        it("loops until user doesn't want to play again") {
            setUpMainLoopMocks
 
            gameRunner.run
 
            verifyOrderOfCalls
-       }
+        }
 
-       def setUpMainLoopMocks {
+        def setUpMainLoopMocks {
            when(mockGame.isGameOver)
                .thenReturn(true)
                .thenReturn(true)
@@ -141,9 +149,9 @@ class ConsoleGameRunnerSpec extends Spec with BeforeAndAfter {
            when(mockUI.askUserToPlayAgain)
                .thenReturn(true)
                .thenReturn(false)
-       }
+        }
 
-       def verifyOrderOfCalls {
+        def verifyOrderOfCalls {
            val order: InOrder = 
                inOrder(
                    mockGame, 
@@ -162,6 +170,6 @@ class ConsoleGameRunnerSpec extends Spec with BeforeAndAfter {
            order.verify(mockGame).isGameOver
            order.verify(mockUI).gameOver
            order.verify(mockUI).askUserToPlayAgain
-       }
-   }
+        }
+    }
 }

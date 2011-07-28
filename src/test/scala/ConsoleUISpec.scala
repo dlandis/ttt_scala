@@ -62,6 +62,13 @@ class ConsoleUISpec extends Spec with BeforeAndAfter {
             verify(mockOut).println(ui.ComputerMoveMessage)
         }
         
+        it("welcomes user to the game") {
+            ui.welcomeUser
+            
+            verify(mockOut).println(ui.WelcomeMessage)
+            verify(mockOut).println(ui.InstructionsMessage)
+            
+        }
     }
     
     describe("input") {

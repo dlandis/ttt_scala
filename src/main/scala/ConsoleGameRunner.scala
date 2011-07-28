@@ -6,6 +6,7 @@ class ConsoleGameRunner {
     var ui = new ConsoleUI(game)
     
     def run {
+        ui.welcomeUser
         do {
             gameLoop
             endGame 

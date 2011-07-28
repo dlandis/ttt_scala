@@ -87,8 +87,7 @@ class ConsoleUI(game: Game) {
     }
     
     private def shouldQuit(input: String): Boolean = {
-        val quitOptions = List("quit", "^[")
-        return (quitOptions.contains(input))
+        return (input.matches("quit"))
     }
     
     private def readLine: String = {

@@ -94,14 +94,18 @@ class ConsoleUISpec extends Spec with BeforeAndAfter {
             when (mockParser.isValid(anyString()))
                 .thenReturn(false)
                 .thenReturn(false)
-                .thenReturn(true)    
+                .thenReturn(false)
+                .thenReturn(false)
+                .thenReturn(true)  
+                .thenReturn(true)      
             when(mockIn.readLine).thenReturn("foo") 
             val validate = (input:String) => mockParser.isValid(input) 
                
             expect("foo") { ui.getValidInput(validate, "enter foo") }  
             
-            verify(mockOut, times(3)).printf("enter foo")          
-            verify(mockParser, times(3)).isValid(anyString())
+            verify(mockOut, times(3)).printf("enter foo")   
+            verify(mockOut, times(2)).printf(ui.InvalidMessage)       
+            verify(mockParser, times(6)).isValid(anyString())
         }
         
         it("gets a move from user") {

@@ -32,6 +32,8 @@ Programming Scala by Dean Wampler is available online and a great reference for 
 
 * Running the tests should go quickly - the first time you run them, compile time is added. Run a second time to see how long the tests take.
 
+* If you have problems seeing your input, open sbt first, then type run. I'm trying to figure out why SBT is suppressing the input but no luck yet.
+
 ### Alternate SBT install instructions:
 
 Download SBT 0.7.7  http://simple-build-tool.googlecode.com/files/sbt-launch-0.7.7.jar

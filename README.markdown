@@ -26,6 +26,10 @@ test
 
 run
 
+## Generate a jar (then run it with java -jar)
+
+onejar
+
 ## Notes on Scala and SBT
 
 Programming Scala by Dean Wampler is available online and a great reference for getting to know Scala. Find it at http://ofps.oreilly.com/titles/9780596155957/

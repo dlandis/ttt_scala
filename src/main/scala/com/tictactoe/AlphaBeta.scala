@@ -21,14 +21,14 @@ class AlphaBeta(playerSymbol: String) {
 
 	def scoreMoves(board: Board): IndexedSeq[Tuple2[Int, Int]] = {
 		def scoreMove(square: Int, opponent: String): Int = {
-			board.makeMove(square, maxPlayer)
+			board.makeMove(square, Some(maxPlayer))
 			val score = alphabeta(board, opponent, MaxStartValue, MinStartValue, DepthStartValue)
 			board.undoMove(square)
 			score
 		}
 
 		val opponent = board.opponentOf(maxPlayer)
-		board.unoccupiedSquares.map(square => { (square, scoreMove(square, opponent)) })
+		board.unoccupiedSquares.map(square => (square, scoreMove(square, opponent)))
 	}
 
 	def moveWithHighestScore(moveScores: IndexedSeq[Tuple2[Int, Int]]) = {
@@ -75,7 +75,7 @@ class AlphaBeta(playerSymbol: String) {
 			var beta = b
 
 			board.unoccupiedSquares.foreach(square => {
-				board.makeMove(square, currentPlayer)
+				board.makeMove(square, Some(currentPlayer))
 				var newScore = alphabeta(board, opponent, alpha, beta, depth + 1)
 				board.undoMove(square)
 

@@ -24,7 +24,7 @@ class Game {
 	def getMoveFromAI: Int = ai.getMove(board)
 
 	def makeMove(square: Int) = {
-		board.makeMove(square, currentPlayer.symbol)
+		board.makeMove(square, Some(currentPlayer.symbol))
 		switchCurrentPlayer
 	}
 
@@ -32,7 +32,7 @@ class Game {
 
 	def isGameOver: Boolean = board.isGameOver
 
-	def getSquareValue(square: Int): String = board.getSquareValue(square)
+	def getSquareValue(square: Int): Option[String] = board.getSquareValue(square)		
 
 	def isSquareUnoccupied(square: Int): Boolean = board.isSquareUnoccupied(square)
 

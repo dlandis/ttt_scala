@@ -6,36 +6,36 @@ object Main extends App {
 	val game = Game()
 	val ui = ConsoleUI(game)
 
-	def makeNextMove {
-		if (game.isCurrentPlayerHuman) {
-			game.makeMove(ui.getMoveFromUser)
-		} else {
-			ui.computerIsMakingMove
-			game.makeComputerMove
-		}
-	}
-
 	def gameLoop {
-		game.restart
-		while (!game.isGameOver) {
-			ui.displayBoard
-			makeNextMove
-		}
-	}
+		def moveLoop {
+			def makeNextMove {
+				if (game.isCurrentPlayerHuman) {
+					game.makeMove(ui.getMoveFromUser)
+				} else {
+					ui.computerIsMakingMove
+					game.makeComputerMove
+				}
+			}
 
-	def endGame {
+			if (!game.isGameOver) {
+				ui.displayBoard
+				makeNextMove
+				moveLoop
+			}
+		}
+
+		game.restart
+		moveLoop
 		ui.displayBoard
 		ui.gameOver
-	}
 
-	def playAgain: Boolean = ui.askUserToPlayAgain
+		if (ui.askUserToPlayAgain)
+			gameLoop
+	}
 
 	try {
 		ui.welcomeUser
-		do {
-			gameLoop
-			endGame
-		} while (playAgain)
+		gameLoop
 	} catch {
 		case e: java.io.IOException => println(QuitMessage)
 	}

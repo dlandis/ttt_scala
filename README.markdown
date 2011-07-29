@@ -44,7 +44,7 @@ Download SBT 0.7.7  http://simple-build-tool.googlecode.com/files/sbt-launch-0.7
 
 Put the jar in your ~/bin directory. Create a file called sbt, and add:
 
-java -Xmx512M -jar `dirname $0`/sbt-launch.jar "$@"
+java -Xmx512M -jar `dirname $0`/sbt-launch-0.7.7.jar "$@"
 
 At the terminal, type:
 
